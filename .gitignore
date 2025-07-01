@@ -97,3 +97,13 @@ InitTestScene*.unity*
 
 # Auto-generated scenes by play mode tests
 /[Aa]ssets/[Ii]nit[Tt]est[Ss]cene*.unity*
+Assets/UnityChan/
+ProjectSettings/
+Assets/TextMesh Pro/
+Assets/Suzuki/
+Assets/Scripts/
+Assets/Resources/
+Assets/Plugins/
+Assets/Akasaka/
+Assets/Editor/
+Assets/Scenes/
