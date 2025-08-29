@@ -10,6 +10,9 @@ namespace ExaciseFPS.SourceCode
         [SerializeField]
         private float _maxHealth = 100f;
 
+        [SerializeField]
+        private ParticleSystem _hitParticle;
+
         private float _currentHealth;
         private void Awake()
         {
@@ -19,7 +22,8 @@ namespace ExaciseFPS.SourceCode
         public void Hit(float damage)
         {
             _currentHealth -= damage;
-            
+            _hitParticle?.Play();
+
             if (_currentHealth <= 0)
             {
                 Destroy(gameObject);

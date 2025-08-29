@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -27,6 +28,8 @@ namespace ExaciseFPS.SourceCode
 
         [SerializeField]
         private float _attackPower = 10f;
+        [SerializeField]
+        private LayerMask _shootIgnoreLayer = 0;
 
         private InputBuffer _inputBuffer;
 
@@ -47,18 +50,14 @@ namespace ExaciseFPS.SourceCode
             if (Mathf.Approximately(_velocity.magnitude, 0)) return;
 
             // カメラの位置を更新
-            transform.position += _velocity * Time.deltaTime;
+            transform.Translate(_velocity * Time.deltaTime, Space.Self);
         }
 
         private void OnInputMove(InputAction.CallbackContext context)
         {
             Vector2 dir = context.ReadValue<Vector2>().normalized;
 
-            //ローカル座標系での移動方向を計算
-            Vector3 localDir =
-                transform.InverseTransformDirection(new Vector3(dir.x, 0, dir.y));
-
-            _velocity = localDir * _moveSpeed;
+            _velocity = new Vector3(dir.x ,0, dir.y) * _moveSpeed;
         }
 
         private void OnInputLook(InputAction.CallbackContext context)
@@ -76,7 +75,7 @@ namespace ExaciseFPS.SourceCode
 
         private void OnInputAttack(InputAction.CallbackContext context)
         {
-            if (Physics.Raycast(transform.position, transform.forward, out var hit, 100f))
+            if (Physics.Raycast(transform.position, transform.forward, out var hit, 100f, ~_shootIgnoreLayer))
             {
                 if (hit.rigidbody?.TryGetComponent<IHitable>(out var target) ?? false)
                 {
