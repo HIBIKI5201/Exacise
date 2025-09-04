@@ -16,40 +16,6 @@ namespace GridDungeon.Scripts
         /// </summary>
         public Vector2Int Size => _size;
 
-        public bool[,] IsUsedGrid => _isUsedGrid;
-
-        [SerializeField, Tooltip("グリッドのサイズ")]
-        private Vector2Int _size = new(10, 10);
-
-        // グリッドの各セルが使用されているかを管理する2次元配列
-        private bool[,] _isUsedGrid;
-
-        private void Awake()
-        {
-            // 実行時にグリッド配列を初期化
-            InitializeGrid();
-        }
-
-        private void OnValidate()
-        {
-            // Inspectorでの値変更時にグリッド配列を再生成
-            // これにより、エディタでのサイズ変更が即座に反映されます。
-            InitializeGrid();
-        }
-
-        /// <summary>
-        /// グリッド配列を初期化または再生成します。
-        /// </summary>
-        private void InitializeGrid()
-        {
-            // 既に適切なサイズの配列が存在する場合は何もしない
-            if (_isUsedGrid != null && _isUsedGrid.GetLength(0) == _size.x && _isUsedGrid.GetLength(1) == _size.y)
-            {
-                return;
-            }
-            _isUsedGrid = new bool[_size.x, _size.y];
-        }
-
         /// <summary>
         /// グリッドにオブジェクトを登録します。
         /// </summary>
@@ -95,6 +61,57 @@ namespace GridDungeon.Scripts
             return IsWithinBounds(offsetPos) && !_isUsedGrid[offsetPos.x, offsetPos.y];
         }
 
+
+        /// <summary>
+        /// ワールド座標をグリッドのローカル座標に変換します。
+        /// </summary>
+        public Vector2Int ApplyOffset(Vector2Int pos)
+        {
+            // GridManager自身のワールド座標を引くことで、ローカルなグリッド座標に変換
+            pos -= _positionOnGrid;
+            return pos;
+        }
+
+        public bool[,] IsUsedGrid => _isUsedGrid;
+
+        [SerializeField, Tooltip("グリッドのサイズ")]
+        private Vector2Int _size = new(10, 10);
+
+        private Vector2Int _positionOnGrid;
+
+        // グリッドの各セルが使用されているかを管理する2次元配列
+        private bool[,] _isUsedGrid;
+
+        private void Awake()
+        {
+            // 実行時にグリッド配列を初期化
+            InitializeGrid();
+
+            _positionOnGrid = new Vector2Int(
+                Mathf.FloorToInt(transform.position.x),
+                Mathf.FloorToInt(transform.position.z));
+        }
+
+        private void OnValidate()
+        {
+            // Inspectorでの値変更時にグリッド配列を再生成
+            // これにより、エディタでのサイズ変更が即座に反映されます。
+            InitializeGrid();
+        }
+
+        /// <summary>
+        /// グリッド配列を初期化または再生成します。
+        /// </summary>
+        private void InitializeGrid()
+        {
+            // 既に適切なサイズの配列が存在する場合は何もしない
+            if (_isUsedGrid != null && _isUsedGrid.GetLength(0) == _size.x && _isUsedGrid.GetLength(1) == _size.y)
+            {
+                return;
+            }
+            _isUsedGrid = new bool[_size.x, _size.y];
+        }
+
         /// <summary>
         /// 指定された座標がグリッドの境界内にあるかを確認します。
         /// </summary>
@@ -103,17 +120,6 @@ namespace GridDungeon.Scripts
         private bool IsWithinBounds(Vector2Int pos)
         {
             return pos.x >= 0 && pos.x < _size.x && pos.y >= 0 && pos.y < _size.y;
-        }
-
-        /// <summary>
-        /// ワールド座標をグリッドのローカル座標に変換します。
-        /// </summary>
-        private Vector2Int ApplyOffset(Vector2Int pos)
-        {
-            // GridManager自身のワールド座標を引くことで、ローカルなグリッド座標に変換
-            pos.x -= Mathf.FloorToInt(transform.position.x);
-            pos.y -= Mathf.FloorToInt(transform.position.z);
-            return pos;
         }
 
         private void OnDrawGizmos()

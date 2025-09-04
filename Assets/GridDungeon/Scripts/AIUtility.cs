@@ -4,141 +4,245 @@ using UnityEngine;
 namespace GridDungeon.Scripts
 {
     /// <summary>
-    /// AIの動作に関するユーティリティクラス。
+    ///     AIの動作に関するユーティリティクラス。
     /// </summary>
     public static class AIUtility
     {
         /// <summary>
-        /// A*アルゴリズムで使用するノードを表す内部クラス。
+        ///    A*アルゴリズムを使用して、2Dグリッド上での最短経路を見つけます。
         /// </summary>
-        private class Node
+        /// <param name="grid">通行可能なマスを true、壁や障害物を false で表す2D配列</param>
+        /// <param name="start">開始座標</param>
+        /// <param name="goal">ゴール座標</param>
+        /// <returns>経路の座標リスト。経路が見つからなければ null</returns>
+        public static List<Vector2Int> GetPath(bool[,] grid, Vector2Int start, Vector2Int goal)
         {
-            public Vector2Int Position { get; }
-            public int GCost { get; set; } // スタートノードからのコスト
-            public int HCost { get; set; } // ターゲットノードまでの推定コスト
-            public int FCost => GCost + HCost; // GCostとHCostの合計
-            public Node Parent { get; set; }
-
-            public Node(Vector2Int position)
+            // ゴールがグリッドの範囲外であれば、経路なしと判断
+            if (!IsInside(grid, goal))
             {
-                Position = position;
-            }
-        }
-
-        /// <summary>
-        /// A*アルゴリズムを使用して、ターゲットへの次の移動位置を計算します。
-        /// </summary>
-        /// <param name="target">ターゲットの座標</param>
-        /// <param name="self">自身の座標</param>
-        /// <param name="gridManager">グリッドマネージャー</param>
-        /// <returns>次に移動すべき座標。パスが見つからない場合は自身の座標を返します。</returns>
-        public static Vector2Int GetNextPosition(Vector2Int target, Vector2Int self, GridManager gridManager)
-        {
-            if (gridManager == null)
-            {
-                return self; // GridManagerがなければ移動しない
+                return null;
             }
 
-            var startNode = new Node(self);
-            var targetNode = new Node(target);
+            // MinHeapでオープンリストを管理。f値最小のノードをO(log n)で取得
+            MinHeap openList = new();
 
-            var openList = new List<Node> { startNode };
-            var closedSet = new HashSet<Vector2Int>();
+            // クローズドリストは探索済み座標を保持
+            HashSet<Vector2Int> closedList = new();
 
-            startNode.GCost = 0;
-            startNode.HCost = CalculateHeuristic(self, target);
+            // 全ノードを座標をキーに辞書で管理
+            Dictionary<Vector2Int, Node> allNodes = new();
 
+            // 開始ノードを初期化
+            Node startNode = new Node(start, 0, Manhattan(start, goal), Node.NoParent);
+            openList.Insert(startNode);
+            allNodes.Add(start, startNode);
+
+            // 4方向の移動ベクトル
+            var directions = new Vector2Int[]
+            {
+                Vector2Int.up, Vector2Int.down, Vector2Int.left, Vector2Int.right
+            };
+
+            // 未探索のノードがなくなるまでループ
             while (openList.Count > 0)
             {
-                // openListからFコストが最も低いノードを取得
-                Node currentNode = openList[0];
-                for (int i = 1; i < openList.Count; i++)
+                Node current = openList.PopMin(); // f値最小ノードを取得
+                closedList.Add(current.Pos);
+
+                // ゴールに到達した場合は経路を復元して返す
+                if (current.Pos == goal)
                 {
-                    if (openList[i].FCost < currentNode.FCost || (openList[i].FCost == currentNode.FCost && openList[i].HCost < currentNode.HCost))
-                    {
-                        currentNode = openList[i];
-                    }
+                    return ReconstructPath(allNodes, current);
                 }
 
-                openList.Remove(currentNode);
-                closedSet.Add(currentNode.Position);
-
-                // ターゲットに到達した場合
-                if (currentNode.Position == target)
+                // 4方向の隣接マスをチェック
+                foreach (var dir in directions)
                 {
-                    return RetracePath(startNode, currentNode);
-                }
+                    Vector2Int neighborPos = current.Pos + dir;
 
-                // 隣接ノードを評価
-                foreach (var neighbourOffset in GetNeighbours())
-                {
-                    Vector2Int neighbourPos = currentNode.Position + neighbourOffset;
+                    if (!IsPassable(grid, neighborPos, goal)) continue; // 通行不可マスはスキップ
+                    if (closedList.Contains(neighborPos)) continue;      // 探索済みはスキップ
 
-                    // 既に評価済みか、移動不可能なセルかを確認
-                    // 注意：ターゲット自身は移動可能とみなす
-                    if (closedSet.Contains(neighbourPos) || (neighbourPos != target && !gridManager.IsValidCell(neighbourPos)))
+                    // 移動コストを計算
+                    int newG = current.CostFromStart + 1;
+
+                    // より良い経路が見つかっていないかチェック
+                    if (allNodes.TryGetValue(neighborPos, out Node existingNode) && existingNode.CostFromStart <= newG)
                     {
                         continue;
                     }
-                    
-                    var openNode = openList.Find(n => n.Position == neighbourPos);
-                    int newMovementCostToNeighbour = currentNode.GCost + CalculateHeuristic(currentNode.Position, neighbourPos);
 
-                    // openListにないか、より良い経路の場合
-                    if (openNode == null || newMovementCostToNeighbour < openNode.GCost)
-                    {
-                        var neighbourNode = openNode ?? new Node(neighbourPos);
-                        neighbourNode.Parent = currentNode;
-                        neighbourNode.GCost = newMovementCostToNeighbour;
-                        neighbourNode.HCost = CalculateHeuristic(neighbourPos, target);
-                        
-                        if (openNode == null)
-                        {
-                            openList.Add(neighbourNode);
-                        }
-                    }
+                    // 新規ノード、またはより良い経路としてオープンリストに追加
+                    Node neighborNode = new Node(
+                        neighborPos,
+                        newG,
+                        Manhattan(neighborPos, goal),
+                        current.Pos
+                    );
+
+                    openList.Insert(neighborNode);
+                    allNodes[neighborPos] = neighborNode;
                 }
             }
 
-            return self; // パスが見つからなかった場合
+            // 経路が見つからなければnullを返す
+            return null;
         }
 
         /// <summary>
-        /// ゴールノードから親をたどってパスを再構築し、最初のステップを返します。
+        ///     グリッド内に収まっているか確認
         /// </summary>
-        private static Vector2Int RetracePath(Node startNode, Node endNode)
-        {
-            var path = new List<Node>();
-            Node currentNode = endNode;
+        private static bool IsInside(bool[,] grid, Vector2Int pos)
+            => pos.x >= 0 && pos.y >= 0 && pos.x < grid.GetLength(0) && pos.y < grid.GetLength(1);
 
-            while (currentNode != startNode)
+        /// <summary>
+        ///     通行可能か確認
+        /// </summary>
+        private static bool IsPassable(bool[,] grid, Vector2Int pos, Vector2Int goal)
+        {
+            // 目的地は常に通行可能とみなす
+            if (pos == goal) return true;
+
+            // 境界内で、かつ使用中でない（壁でない）ことを確認
+            return IsInside(grid, pos) && !grid[pos.x, pos.y];
+        }
+
+        /// <summary>
+        ///     2点間のマンハッタン距離を計算
+        /// </summary>
+        private static int Manhattan(Vector2Int a, Vector2Int b)
+            => Mathf.Abs(a.x - b.x) + Mathf.Abs(a.y - b.y);
+
+        /// <summary>
+        ///     経路を親ノード情報から復元
+        /// </summary>
+        private static List<Vector2Int> ReconstructPath(Dictionary<Vector2Int, Node> nodes, Node lastNode)
+        {
+            var path = new List<Vector2Int>();
+            Node currentNode = lastNode;
+
+            // 親ノードをたどりながら経路を追加
+            while (currentNode.ParentPos != Node.NoParent)
             {
-                path.Add(currentNode);
-                currentNode = currentNode.Parent;
+                path.Add(currentNode.Pos);
+                if (nodes.TryGetValue(currentNode.ParentPos, out Node parentNode))
+                {
+                    currentNode = parentNode;
+                }
+                else
+                {
+                    // 親が見つからなければ終了（始点に到達）
+                    break;
+                }
             }
+
+            path.Add(currentNode.Pos); // 始点ノードを追加
+
+            // 開始→ゴール順に反転
             path.Reverse();
-
-            // 次の1歩を返す。パスがなければ現在地を返す。
-            return path.Count > 0 ? path[0].Position : startNode.Position;
+            return path;
         }
 
         /// <summary>
-        /// 2点間のヒューリスティックコスト（マンハッタン距離）を計算します。
+        ///     経路探索用のノード構造体。
         /// </summary>
-        private static int CalculateHeuristic(Vector2Int a, Vector2Int b)
+        private readonly struct Node
         {
-            return Mathf.Abs(a.x - b.x) + Mathf.Abs(a.y - b.y);
+            public static readonly Vector2Int NoParent = new Vector2Int(-1, -1);
+
+            public Node(Vector2Int pos, int g, int h, Vector2Int parentPos)
+            {
+                _pos = pos;
+                _costFromStart = g;
+                _heuristicCost = h;
+                _parentPos = parentPos;
+            }
+
+            // ノード座標
+            public Vector2Int Pos => _pos;
+
+            // f値 = g + h
+            public int TotalEstimatedCost => _costFromStart + _heuristicCost;
+
+            // スタートからの距離
+            public int CostFromStart => _costFromStart;
+
+            // ゴールまでの推定距離
+            public int HeuristicCost => _heuristicCost;
+
+            // 親ノードの座標 (NoParentならなし)
+            public Vector2Int ParentPos => _parentPos;
+
+            private readonly Vector2Int _pos;
+            private readonly int _costFromStart;
+            private readonly int _heuristicCost;
+            private readonly Vector2Int _parentPos;
         }
 
+
         /// <summary>
-        /// 隣接する4方向のオフセットを取得します。
+        ///     最小ヒープによる優先度付きキュー実装。
+        ///     f値最小のノードを高速に取得可能。
         /// </summary>
-        private static IEnumerable<Vector2Int> GetNeighbours()
+        private class MinHeap
         {
-            yield return new Vector2Int(0, 1);  // 上
-            yield return new Vector2Int(0, -1); // 下
-            yield return new Vector2Int(1, 0);  // 右
-            yield return new Vector2Int(-1, 0); // 左
+            private readonly List<Node> _heap = new();
+
+            public int Count => _heap.Count;
+
+            /// <summary>
+            ///     ノードをヒープに追加
+            /// </summary>
+            public void Insert(Node node)
+            {
+                _heap.Add(node);
+                int i = _heap.Count - 1;
+                while (i > 0)
+                {
+                    int parent = (i - 1) / 2;
+                    if (_heap[i].TotalEstimatedCost >= _heap[parent].TotalEstimatedCost) break;
+
+                    Swap(i, parent);
+                    i = parent;
+                }
+            }
+
+            /// <summary>
+            ///     最小f値ノードを取り出す
+            /// </summary>
+            public Node PopMin()
+            {
+                Node min = _heap[0];
+                _heap[0] = _heap[_heap.Count - 1];
+                _heap.RemoveAt(_heap.Count - 1);
+                Heapify(0);
+                return min;
+            }
+
+            /// <summary>
+            ///     ヒープ条件を維持
+            /// </summary>
+            private void Heapify(int i)
+            {
+                int left = 2 * i + 1;
+                int right = 2 * i + 2;
+                int smallest = i;
+
+                // 左右の子ノードと比較して最小値を見つける
+                if (left < _heap.Count && _heap[left].TotalEstimatedCost < _heap[smallest].TotalEstimatedCost) smallest = left;
+                if (right < _heap.Count && _heap[right].TotalEstimatedCost < _heap[smallest].TotalEstimatedCost) smallest = right;
+
+                if (smallest != i)
+                {
+                    Swap(i, smallest);
+                    Heapify(smallest);
+                }
+            }
+
+            /// <summary>
+            ///     ノードの入れ替え
+            /// </summary>
+            private void Swap(int i, int j) => (_heap[i], _heap[j]) = (_heap[j], _heap[i]);
         }
     }
 }

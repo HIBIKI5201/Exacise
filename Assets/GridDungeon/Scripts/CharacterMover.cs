@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace GridDungeon.Scripts
@@ -22,6 +23,10 @@ namespace GridDungeon.Scripts
 
         [SerializeField, Tooltip("ワールド設定")]
         private WorldConfig _worldConfig;
+
+        [Space]
+        [SerializeField, Tooltip("移動にかける時間（秒）。0以下の場合は即座に移動する。")]
+        private float _moveDuration = 0.2f;
 
         private Vector3Int _currentPosOnGrid;
         private GridManager _gridManager;
@@ -54,21 +59,21 @@ namespace GridDungeon.Scripts
         /// 指定された方向にキャラクターを移動させます。
         /// </summary>
         /// <param name="direction">移動する方向</param>
-        public void MoveTo(Vector2Int direction)
+        public async Task MoveTo(Vector2Int direction)
         {
             if (_worldConfig == null || _gridManager == null) return;
 
             // 新しい目標座標を計算
+
             Vector2Int newPos = new Vector2Int(_currentPosOnGrid.x + direction.x, _currentPosOnGrid.z + direction.y);
 
             // GridManagerで移動可能か検証
-            if (_gridManager.IsValidCell(newPos))
-            {
-                // グリッド上の座標を更新
-                UpdateGridPosition(newPos);
-                // ワールド座標を更新
-                UpdateWorldPosition();
-            }
+            if (!_gridManager.IsValidCell(newPos)) return;
+
+            // グリッド上の座標を更新
+            UpdateGridPosition(newPos);
+            // ワールド座標を更新
+            await UpdateWorldPosition(_moveDuration);
         }
 
         /// <summary>
@@ -83,7 +88,7 @@ namespace GridDungeon.Scripts
             // グリッド上の座標を更新
             UpdateGridPosition(new Vector2Int(snappedGridPos.x, snappedGridPos.z));
             // ワールド座標を更新
-            UpdateWorldPosition();
+            _ = UpdateWorldPosition();
         }
 
         /// <summary>
@@ -102,12 +107,33 @@ namespace GridDungeon.Scripts
         /// <summary>
         /// グリッド座標に基づいてワールド座標を更新します。
         /// </summary>
-        private void UpdateWorldPosition()
+        private async Task UpdateWorldPosition(float duration = 0)
         {
             // グリッド座標にオフセットを加え、スケールを掛けてワールド座標を算出
             Vector3 pos = (Vector3)_currentPosOnGrid + new Vector3(_worldConfig.GridOffset.x, 0, _worldConfig.GridOffset.y);
             pos *= _worldConfig.GridScale;
-            transform.position = pos;
+
+            // durationが0以下の場合は即座に移動
+            if (duration <= 0)
+            {
+                transform.position = pos;
+                return;
+            }
+
+            // durationをかけて線形補間で移動
+            Vector3 original = transform.position;
+            float delta = 0;
+            while (delta <= 1)
+            {
+                delta += Time.deltaTime / duration;
+                Mathf.Clamp01(delta);
+
+                Vector3 temp = Vector3.Lerp(original, pos, delta);
+
+                transform.position = temp;
+
+                await Awaitable.NextFrameAsync(destroyCancellationToken);
+            }
         }
     }
 }
