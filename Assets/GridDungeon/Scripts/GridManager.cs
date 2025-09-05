@@ -45,7 +45,14 @@ namespace GridDungeon.Scripts
 
             obj.OnPositionChanged += action;
             // オブジェクトが破棄される際にイベントの登録を解除
-            token.Register(() => obj.OnPositionChanged -= action);
+            token.Register(() =>
+                {
+                    obj.OnPositionChanged -= action;
+
+                    var pos = ApplyOffset(obj.Position);
+                    if (IsWithinBounds(pos))
+                        _isUsedGrid[pos.x, pos.y] = false;
+                });
         }
 
         /// <summary>

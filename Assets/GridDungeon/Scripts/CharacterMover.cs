@@ -59,21 +59,23 @@ namespace GridDungeon.Scripts
         /// 指定された方向にキャラクターを移動させます。
         /// </summary>
         /// <param name="direction">移動する方向</param>
-        public async Task MoveTo(Vector2Int direction)
+        public async Task<bool> MoveTo(Vector2Int direction)
         {
-            if (_worldConfig == null || _gridManager == null) return;
+            if (_worldConfig == null || _gridManager == null) return false;
 
             // 新しい目標座標を計算
 
             Vector2Int newPos = new Vector2Int(_currentPosOnGrid.x + direction.x, _currentPosOnGrid.z + direction.y);
 
             // GridManagerで移動可能か検証
-            if (!_gridManager.IsValidCell(newPos)) return;
+            if (!_gridManager.IsValidCell(newPos)) return false;
 
             // グリッド上の座標を更新
             UpdateGridPosition(newPos);
             // ワールド座標を更新
             await UpdateWorldPosition(_moveDuration);
+
+            return true;
         }
 
         /// <summary>
