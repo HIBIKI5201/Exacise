@@ -30,7 +30,7 @@ namespace GridDungeon.Scripts
         private void Start()
         {
             GridManager gridManager = FindAnyObjectByType<GridManager>();
-            gridManager.Register(this);
+            gridManager.Register(this, destroyCancellationToken);
 
             Vector3 pos = new Vector3(_position.x, transform.position.y, _position.y)
                 + new Vector3(_worldConfig.GridOffset.x, 0, _worldConfig.GridOffset.y);

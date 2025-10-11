@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -38,7 +39,7 @@ namespace GridDungeon.Scripts
             allNodes.Add(start, startNode);
 
             // 4方向の移動ベクトル
-            var directions = new Vector2Int[]
+            ReadOnlySpan<Vector2Int> directions = stackalloc Vector2Int[]
             {
                 Vector2Int.up, Vector2Int.down, Vector2Int.left, Vector2Int.right
             };

@@ -60,6 +60,8 @@ namespace GridDungeon.Scripts
                 head.parent = _player.transform;
                 head.localPosition = _headOffset;
                 head.localScale = Vector3.one * _headSize;
+
+                _playerBattler.OnDied += p => Debug.Log($"{p.name} is dead");
             }
 
             if (_bulletObj == null)
@@ -161,8 +163,6 @@ namespace GridDungeon.Scripts
 
             Vector2Int pos = _playerMover.Position;
             Vector2Int dir = _playerDir;
-
-
 
             ShootBullet(_player.transform.position,
                 _player.transform.position + new Vector3(dir.x, 0, dir.y) * _attackDistance,

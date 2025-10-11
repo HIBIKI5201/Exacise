@@ -32,10 +32,8 @@ namespace GridDungeon.Scripts
                 int index = i; // キャプチャ用のローカル変数
 
                 pathTasks[index] = Task.Run(
-                    async () =>
+                    () =>
                 {
-                    await Awaitable.BackgroundThreadAsync();
-
                     CharacterMover enemy = _enemies[index].Mover;
 
                     Vector2Int playerPos = _gridManager.ApplyOffset(_player.Mover.Position);

@@ -101,8 +101,7 @@ namespace GridDungeon.Scripts
 
         private void OnValidate()
         {
-            // Inspectorでの値変更時にグリッド配列を再生成
-            // これにより、エディタでのサイズ変更が即座に反映されます。
+            // Inspectorでの値変更時にグリッド配列を再生成。
             InitializeGrid();
         }
 
