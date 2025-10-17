@@ -1,6 +1,5 @@
 using NovelGame.Scripts;
 using System.Collections;
-using System.Text;
 using UnityEngine;
 
 public class MessagePrinter : MonoBehaviour
@@ -29,7 +28,7 @@ public class MessagePrinter : MonoBehaviour
                     (int)showLength, //速度に応じた数。
                     text.Length); // 最大文字数。
 
-            _massageWindowPresenter.SetMassage(text);
+            _massageWindowPresenter.SetMassage(text[..nextShowLength]);
 
             yield return null;
 
