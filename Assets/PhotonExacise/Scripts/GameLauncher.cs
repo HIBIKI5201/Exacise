@@ -9,6 +9,8 @@ namespace PhotonExacise.Scripts
 {
     public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
     {
+        private NetworkRunner _networkRunner;
+
         [SerializeField]
         private NetworkRunner _networkRunnerPrefab;
         [SerializeField]
@@ -16,10 +18,10 @@ namespace PhotonExacise.Scripts
 
         private async void Start()
         {
-            var networkRunner = Instantiate(_networkRunnerPrefab);
+            _networkRunner = Instantiate(_networkRunnerPrefab);
             // GameLauncherを、NetworkRunnerのコールバック対象に追加する
-            networkRunner.AddCallbacks(this);
-            var result = await networkRunner.StartGame(new StartGameArgs
+            _networkRunner.AddCallbacks(this);
+            var result = await _networkRunner.StartGame(new StartGameArgs
             {
                 GameMode = GameMode.Shared
             });
