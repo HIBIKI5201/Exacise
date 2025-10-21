@@ -16,7 +16,8 @@ namespace PhotonExacise.Scripts
         private PlayerAvatarView _view;
         public override void Spawned()
         {
-            _charaEntity = new CharacterEntity(100);
+            _charaEntity = new ($"{this.Object.Id.Raw}", 100);
+            CharacterUseCase.Register(_charaEntity);
 
             _characterController = GetComponent<NetworkCharacterController>();
             _networkAnimator = GetComponentInChildren<NetworkMecanimAnimator>();
