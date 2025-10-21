@@ -152,7 +152,7 @@ MonoBehaviour:
   _playerAvatarPrefab:
     RawGuidValue: 37e27b27ef8bb1842b714ccfe2c446c6
   _characterUseCase:
-    RawGuidValue: 00000000000000000000000000000000
+    RawGuidValue: 86e96909bf3546e43951908ba3c1de99
 --- !u!4 &49584788
 Transform:
   m_ObjectHideFlags: 0
@@ -295,50 +295,6 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
---- !u!1 &632838948
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 632838950}
-  - component: {fileID: 632838949}
-  m_Layer: 0
-  m_Name: CharacterUseCase
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &632838949
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 632838948}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1628d0bbbf8a44643aef2b20dddfca7d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: PhotonExacise::PhotonExacise.Scripts.CharacterUseCase
---- !u!4 &632838950
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 632838948}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10.09265, y: 6.85826, z: 4.69807}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1706625329
 GameObject:
   m_ObjectHideFlags: 0
@@ -574,4 +530,3 @@ SceneRoots:
   - {fileID: 416385948}
   - {fileID: 49584788}
   - {fileID: 1798822658}
-  - {fileID: 632838950}
