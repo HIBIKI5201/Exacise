@@ -15,6 +15,8 @@ namespace PhotonExacise.Scripts
         private NetworkRunner _networkRunnerPrefab;
         [SerializeField]
         private NetworkPrefabRef _playerAvatarPrefab;
+        [SerializeField]
+        private NetworkPrefabRef _characterUseCase;
 
         private async void Start()
         {
@@ -48,6 +50,8 @@ namespace PhotonExacise.Scripts
                     // プレイヤー名のネットワークプロパティの初期値として、ランダムな名前を設定する
                     networkObject.GetComponent<PlayerAvatar>().NickName = $"Player{Random.Range(0, 10000)}";
                 });
+
+                runner.Spawn(_characterUseCase);
             }
         }
 
