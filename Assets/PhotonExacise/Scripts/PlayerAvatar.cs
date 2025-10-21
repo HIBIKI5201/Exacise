@@ -28,10 +28,9 @@ namespace PhotonExacise.Scripts
             if (HasStateAuthority)
             {
                 _view.MakeCameraTarget();
-                _charaEntity.OnHealthChanged += RpcUpdateHealthUI;
             }
 
-            RpcUpdateHealthUI(_charaEntity.CurrentHealth, _charaEntity.MaxHealth);
+            _charaEntity.OnHealthChanged += (c, m) => _view.SetNickName($"{c}/{m}");
         }
 
         public override void FixedUpdateNetwork()
@@ -42,9 +41,9 @@ namespace PhotonExacise.Scripts
             _characterController.Move(cameraRotation * inputDirection);
 
             // ダメージ
-            if (Input.GetKey(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space))
             {
-                _charaEntity.TakeDamage(10);
+                CharacterUseCase.Instance.Attack(_charaEntity, 10);
             }
 
             // アニメーション
@@ -56,15 +55,6 @@ namespace PhotonExacise.Scripts
             animator.SetBool("Grounded", grounded);
             animator.SetBool("FreeFall", !grounded && vy < -4f);
             animator.SetFloat("MotionSpeed", 1f);
-        }
-
-        /// <summary>
-        /// ネットワークを通して全クライアントに同期
-        /// </summary>
-        [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
-        private void RpcUpdateHealthUI(float current, float max)
-        {
-            _view.SetNickName($"{current}/{max}");
         }
     }
 }
