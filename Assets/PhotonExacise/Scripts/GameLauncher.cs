@@ -42,6 +42,8 @@ namespace PhotonExacise.Scripts
             // セッションへ参加したプレイヤーが自分自身かどうかを判定する
             if (player == runner.LocalPlayer)
             {
+                runner.Spawn(_characterUseCase);
+
                 // アバターの初期位置を計算する（半径5の円の内部のランダムな点）
                 var rand = UnityEngine.Random.insideUnitCircle * 5f;
                 var spawnPosition = new Vector3(rand.x, 2f, rand.y);
@@ -50,8 +52,6 @@ namespace PhotonExacise.Scripts
                     // プレイヤー名のネットワークプロパティの初期値として、ランダムな名前を設定する
                     networkObject.GetComponent<PlayerAvatar>().NickName = $"Player{Random.Range(0, 10000)}";
                 });
-
-                runner.Spawn(_characterUseCase);
             }
         }
 
