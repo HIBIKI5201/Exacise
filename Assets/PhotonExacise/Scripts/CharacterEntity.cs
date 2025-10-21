@@ -4,8 +4,9 @@ namespace PhotonExacise.Scripts
 {
     public class CharacterEntity
     {
-        public CharacterEntity(float maxHealth)
+        public CharacterEntity(string id, float maxHealth)
         {
+            _id = id;
             _maxHealth = maxHealth;
             _currentHealth = maxHealth;
         }
@@ -13,6 +14,7 @@ namespace PhotonExacise.Scripts
         /// <summary> 第一は現在値、第二は最大値 </summary>
         public event Action<float, float> OnHealthChanged;
 
+        public string Id => _id;
         public float MaxHealth => _maxHealth;
         public float CurrentHealth => _currentHealth;
 
@@ -22,6 +24,7 @@ namespace PhotonExacise.Scripts
             OnHealthChanged?.Invoke(_currentHealth, _maxHealth);
         }
 
+        private readonly string _id;
         private readonly float _maxHealth;
         private float _currentHealth;
     }
