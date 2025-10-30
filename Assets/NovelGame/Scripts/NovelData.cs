@@ -28,15 +28,19 @@ namespace NovelGame.Scripts
             {
                 _name = string.Empty;
                 _text = text;
+                _action = string.Empty;
             }
 
             public string Name => _name;
             public string Text => _text;
+            public string Action => _action;
 
             [SerializeField]
             private string _name;
             [SerializeField, TextArea(3, 10)]
             private string _text;
+            [SerializeField]
+            private string _action;
         }
     }
 }
