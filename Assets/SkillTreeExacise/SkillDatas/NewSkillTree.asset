@@ -18,4 +18,30 @@ MonoBehaviour:
   skills:
   - {fileID: 11400000, guid: f8a82f0599b58404cb688da88501ac95, type: 2}
   - {fileID: 11400000, guid: 640bf09d249569047bc77bace06848ea, type: 2}
+  - {fileID: 11400000, guid: 921113de1d86e3a41a022e050485a10d, type: 2}
+  uiNodes:
+  - skillId: 001
+    position: {x: 0, y: 0}
+    shape: 0
+    size: {x: 0, y: 0}
+    customColor: {r: 0, g: 0, b: 0, a: 0}
+    useCustomColor: 0
+    enablePulse: 0
+    pulseSpeed: 0
+  - skillId: 002
+    position: {x: 200, y: 0}
+    shape: 0
+    size: {x: 0, y: 0}
+    customColor: {r: 0, g: 0, b: 0, a: 0}
+    useCustomColor: 0
+    enablePulse: 0
+    pulseSpeed: 0
+  - skillId: 003
+    position: {x: 200, y: 200}
+    shape: 0
+    size: {x: 0, y: 0}
+    customColor: {r: 0, g: 0, b: 0, a: 0}
+    useCustomColor: 0
+    enablePulse: 0
+    pulseSpeed: 0
   connections: []

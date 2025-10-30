@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 /// <summary>
 /// スキルツリー全体の構成を定義するScriptableObject
+/// スキルデータとUIレイアウトを分離して管理
 /// </summary>
 [CreateAssetMenu(fileName = "NewSkillTree", menuName = "SkillTree/Tree Config")]
 public class SkillTreeConfig : ScriptableObject
@@ -12,8 +13,11 @@ public class SkillTreeConfig : ScriptableObject
     public string treeName;
     public Sprite treeIcon;
     
-    [Header("スキル構成")]
+    [Header("スキルデータ")]
     public List<SkillData> skills = new List<SkillData>();
+    
+    [Header("UIレイアウト")]
+    public List<SkillUINode> uiNodes = new List<SkillUINode>();
     
     [Header("接続情報")]
     public List<SkillConnection> connections = new List<SkillConnection>();
@@ -41,6 +45,32 @@ public class SkillTreeConfig : ScriptableObject
     public SkillData GetSkill(string skillId)
     {
         return skills.Find(s => s.skillId == skillId);
+    }
+    
+    /// <summary>
+    /// UIノードを取得
+    /// </summary>
+    public SkillUINode GetUINode(string skillId)
+    {
+        return uiNodes.Find(n => n.skillId == skillId);
+    }
+    
+    /// <summary>
+    /// スキルデータとUIノードを自動的に同期
+    /// </summary>
+    public void SyncUINodes()
+    {
+        // 不要なUIノードを削除
+        uiNodes.RemoveAll(node => !skills.Exists(s => s.skillId == node.skillId));
+        
+        // 新しいスキルにUIノードを追加
+        foreach (var skill in skills)
+        {
+            if (!uiNodes.Exists(n => n.skillId == skill.skillId))
+            {
+                uiNodes.Add(new SkillUINode(skill.skillId, Vector2.zero));
+            }
+        }
     }
 }
 

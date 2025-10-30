@@ -197,11 +197,13 @@ public class SkillTreeIMGUI : MonoBehaviour
         {
             var fromSkill = treeConfig.GetSkill(connection.fromSkillId);
             var toSkill = treeConfig.GetSkill(connection.toSkillId);
+            var fromUINode = treeConfig.GetUINode(connection.fromSkillId);
+            var toUINode = treeConfig.GetUINode(connection.toSkillId);
             
-            if (fromSkill == null || toSkill == null) continue;
+            if (fromSkill == null || toSkill == null || fromUINode == null || toUINode == null) continue;
             
-            Vector2 fromPos = GetNodeCenter(fromSkill);
-            Vector2 toPos = GetNodeCenter(toSkill);
+            Vector2 fromPos = GetNodeCenter(fromUINode);
+            Vector2 toPos = GetNodeCenter(toUINode);
             
             var fromNode = treeManager.GetSkillNode(connection.fromSkillId);
             var toNode = treeManager.GetSkillNode(connection.toSkillId);
@@ -231,15 +233,19 @@ public class SkillTreeIMGUI : MonoBehaviour
         {
             if (skill.prerequisiteSkillIds.Count == 0) continue;
             
-            Vector2 toPos = GetNodeCenter(skill);
+            var toUINode = treeConfig.GetUINode(skill.skillId);
+            if (toUINode == null) continue;
+            
+            Vector2 toPos = GetNodeCenter(toUINode);
             var toNode = treeManager.GetSkillNode(skill.skillId);
             
             foreach (var prereqId in skill.prerequisiteSkillIds)
             {
                 var prereqSkill = treeConfig.GetSkill(prereqId);
-                if (prereqSkill == null) continue;
+                var prereqUINode = treeConfig.GetUINode(prereqId);
+                if (prereqSkill == null || prereqUINode == null) continue;
                 
-                Vector2 fromPos = GetNodeCenter(prereqSkill);
+                Vector2 fromPos = GetNodeCenter(prereqUINode);
                 var fromNode = treeManager.GetSkillNode(prereqId);
                 
                 // 線の色
@@ -272,15 +278,19 @@ public class SkillTreeIMGUI : MonoBehaviour
     
     private void DrawSkillNodes()
     {
-        foreach (var skill in treeConfig.skills)
+        foreach (var uiNode in treeConfig.uiNodes)
         {
-            DrawSkillNode(skill);
+            var skill = treeConfig.GetSkill(uiNode.skillId);
+            if (skill != null)
+            {
+                DrawSkillNode(skill, uiNode);
+            }
         }
     }
     
-    private void DrawSkillNode(SkillData skill)
+    private void DrawSkillNode(SkillData skill, SkillUINode uiNode)
     {
-        Vector2 position = GetNodePosition(skill);
+        Vector2 position = GetNodePosition(uiNode);
         Rect nodeRect = new Rect(position.x, position.y, nodeWidth, nodeHeight);
         
         var node = treeManager.GetSkillNode(skill.skillId);
@@ -424,15 +434,15 @@ public class SkillTreeIMGUI : MonoBehaviour
         GUILayout.EndVertical();
     }
     
-    private Vector2 GetNodePosition(SkillData skill)
+    private Vector2 GetNodePosition(SkillUINode uiNode)
     {
-        return treeOffset + skill.treePosition * zoom;
+        return treeOffset + uiNode.position * zoom;
     }
     
-    private Vector2 GetNodeCenter(SkillData skill)
+    private Vector2 GetNodeCenter(SkillUINode uiNode)
     {
-        Vector2 pos = GetNodePosition(skill);
-        return pos + new Vector2(nodeWidth / 2, nodeHeight / 2);
+        Vector2 pos = GetNodePosition(uiNode);
+        return pos + new Vector2(uiNode.size.x / 2, uiNode.size.y / 2);
     }
 }
 

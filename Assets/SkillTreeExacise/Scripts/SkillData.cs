@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 /// <summary>
 /// スキルの基本データを定義するScriptableObject
+/// UI表示情報は含まない純粋なゲームデータ
 /// </summary>
 [CreateAssetMenu(fileName = "NewSkill", menuName = "SkillTree/Skill Data")]
 public class SkillData : ScriptableObject
@@ -24,8 +25,7 @@ public class SkillData : ScriptableObject
     public float effectValue;
     public int maxLevel = 1;
     
-    [Header("ビジュアル")]
-    public Vector2 treePosition; // ツリー上の配置座標
+    [Header("分類")]
     public SkillTier tier = SkillTier.Basic;
 }
 

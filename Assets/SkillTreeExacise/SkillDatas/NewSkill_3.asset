@@ -23,5 +23,4 @@ MonoBehaviour:
   effectType: 0
   effectValue: 0
   maxLevel: 1
-  treePosition: {x: 0, y: 0}
   tier: 0
