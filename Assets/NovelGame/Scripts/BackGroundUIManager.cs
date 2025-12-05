@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -12,6 +13,8 @@ namespace NovelGame.Scripts
     [DefaultExecutionOrder(50)]
     public class BackGroundUIManager : MonoBehaviour
     {
+        public BackGroundDatabase Database => _database;
+
         [SerializeField]
         private Image _front;
         [SerializeField]
@@ -20,37 +23,12 @@ namespace NovelGame.Scripts
         [SerializeField]
         private BackGroundDatabase _database;
 
-        public async Task PlayBackGroundActionAsync(string[] actions, CancellationToken token = default)
-        {
-            foreach (string action in actions)
-            {
-                if (string.IsNullOrEmpty(action)) return;
-                string[] inputs = action.Split();
-                switch (inputs[0].ToLower())
-                {
-                    case "changebackground":
-                        float fadeInDuration = inputs.Length > 1 && float.TryParse(inputs[2], out float inDuration) ? inDuration : 0.5f;
-                        await FadeInSpriteAsync(inputs[1], fadeInDuration, token);
-                        break;
-                    default:
-                        break;
-                }
-            }
-
-        }
-
         public void SetFrontSpriteAsync(Sprite sprite)
         {
             _front.sprite = sprite;
         }
 
-        public async Task FadeInSpriteAsync(string assetName, float duration, CancellationToken token = default)
-        {
-            Sprite sprite = _database[assetName];
-            await FadeInSpriteAsync(sprite, duration, token);
-        }
-
-        public async Task FadeInSpriteAsync(Sprite sprite, float duration, CancellationToken token = default)
+        public async Task CrossFadeAsync(Sprite sprite, float duration, CancellationToken token = default)
         {
             _back.sprite = sprite;
 
@@ -61,9 +39,17 @@ namespace NovelGame.Scripts
                 color.a = 1f - Mathf.Clamp01(elapsed / duration);
                 _front.color = color;
 
-                await Awaitable.NextFrameAsync(token);
+                try
+                {
+                    await Awaitable.NextFrameAsync(token);
+                }
+                catch (OperationCanceledException)
+                {
+                    break;
+                }
                 elapsed += Time.deltaTime;
             }
+ 
             _front.sprite = sprite;
             _front.color = Color.white;
         }
