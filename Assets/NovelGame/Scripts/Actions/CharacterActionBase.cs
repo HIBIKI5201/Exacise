@@ -1,6 +1,4 @@
-using NovelGame.Scripts;
 using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -14,14 +12,14 @@ namespace NovelGame.Scripts
     {
         public async Task ExcuteAsync(NovelObjectRepository repository, CancellationToken token = default)
         {
-            CharacterAnimator character = 
+            CharacterAnimator character =
                 Array.Find(repository.CharacterAnimators, c => c.Name == _characterName);
-            await Proccess(character);
+            await Proccess(character, token);
         }
 
         [SerializeField]
         protected string _characterName;
 
-        protected abstract Task Proccess(CharacterAnimator character); 
+        protected abstract Task Proccess(CharacterAnimator character, CancellationToken token);
     }
 }

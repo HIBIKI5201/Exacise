@@ -1,16 +1,18 @@
+using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
 
-public class CharacterFadeOut : MonoBehaviour
+namespace NovelGame.Scripts
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public class CharacterFadeOut : CharacterActionBase
     {
-        
-    }
+        protected override async Task Proccess(CharacterAnimator character, CancellationToken token)
+        {
+            await character.FadeOut(_duration, token);
+        }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+
+        [SerializeField]
+        private float _duration = 0.5f;
     }
 }

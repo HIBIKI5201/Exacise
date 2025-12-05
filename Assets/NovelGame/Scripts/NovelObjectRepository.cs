@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace NovelGame.Scripts
 {
     /// <summary>
