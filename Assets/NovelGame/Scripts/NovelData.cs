@@ -33,6 +33,7 @@ namespace NovelGame.Scripts
             public string Text => _text;
             public string Action => _action;
             public bool IsWaitForInput => _isWaitForInput;
+            public IAction[] ActionObject => _actionObject;
 
             [SerializeField]
             private string _name = string.Empty;
@@ -40,6 +41,8 @@ namespace NovelGame.Scripts
             private string _text = string.Empty;
             [SerializeField]
             private string _action = string.Empty;
+            [SerializeReference, SubclassSelector]
+            private IAction[] _actionObject = null;
             [SerializeField]
             private bool _isWaitForInput = true;
         }
