@@ -17,6 +17,9 @@ namespace NovelGame.Scripts
         [SerializeField]
         private Image _back;
 
+        [SerializeField]
+        private BackGroundDatabase _database;
+
         public async Task PlayBackGroundActionAsync(string[] actions, CancellationToken token = default)
         {
             foreach (string action in actions)
@@ -43,7 +46,7 @@ namespace NovelGame.Scripts
 
         public async Task FadeInSpriteAsync(string assetName, float duration, CancellationToken token = default)
         {
-            Sprite sprite = Resources.Load<Sprite>(assetName);
+            Sprite sprite = _database[assetName];
             await FadeInSpriteAsync(sprite, duration, token);
         }
 
