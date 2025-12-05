@@ -16,6 +16,8 @@ namespace NovelGame.Scripts
     {
         [SerializeField]
         private MassageWindowPresenter _massageWindowPresenter;
+        [SerializeField]
+        private BackGroundUIManager _backGroundUIManager;
 
         [Space]
         [SerializeField]
@@ -24,7 +26,7 @@ namespace NovelGame.Scripts
         private IAsyncEnumerator<byte> _textEnumerator;
         private ValueTask<bool> _textMoveNextTask;
 
-        private CancellationTokenSource _cts;
+        private CancellationTokenSource _taskCts;
 
         private NovelPrinter _printer;
 
@@ -88,17 +90,20 @@ namespace NovelGame.Scripts
 
             while (index < _novelData.Length)
             {
-                string name = _novelData[index].Name;
+                NovelData.TextData textData = _novelData[index];
+                string name = textData.Name;
                 _massageWindowPresenter.SetName(name);
 
-                string text = _novelData[index].Text;
+                string text = textData.Text;
 
-                _cts = new();
-                CancellationToken tkn = _cts?.Token ?? default;
+                _taskCts = new();
+                CancellationToken tcn = _taskCts?.Token ?? default;
 
-                Task textTask = _printer.ShowTextAsync(text, tkn);
-                Task characterTask = PlayCharacterActionAsync(name, _novelData[index].Action, tkn);
-                Task uiTask = PlayUIActionAsync(name, _novelData[index].Action, tkn);
+                string[] actions = textData.Action.Split(", ");
+                Task textTask = _printer.ShowTextAsync(text, tcn);
+                Task characterTask = PlayCharacterActionAsync(name, actions, tcn);
+                Task uiTask = PlayUIActionAsync(name, actions, tcn);
+                Task backGroundTask = _backGroundUIManager.PlayBackGroundActionAsync(actions, tcn);
 
                 try
                 {
@@ -107,47 +112,53 @@ namespace NovelGame.Scripts
                 catch (OperationCanceledException) { }
                 finally
                 {
-                    _cts.Dispose();
-                    _cts = null;
+                    _taskCts.Dispose();
+                    _taskCts = null;
                 }
 
-                yield return 0;
+                // ユーザー入力を待機。
+                if (textData.IsWaitForInput) { yield return 0; }
                 index++;
             }
         }
 
         private void CancelShowing()
         {
-            _cts.Cancel();
+            _taskCts.Cancel();
         }
 
-        private Task PlayCharacterActionAsync(string name, string action, CancellationToken token)
+        private Task PlayCharacterActionAsync(string name, string[] actions, CancellationToken token)
         {
             if (_characterAnimators.TryGetValue(name, out CharacterAnimator animator))
             {
-                return animator.PlayAction(action, token);
+                return animator.PlayAction(actions, token);
             }
+
             return Task.CompletedTask;
         }
 
-        private Task PlayUIActionAsync(string name, string action, CancellationToken token)
+        private Task PlayUIActionAsync(string name, string[] actions, CancellationToken token)
         {
             // 名前が無ければUIアクションを実行する。
             if (!string.IsNullOrEmpty(name)) return Task.CompletedTask;
 
-            string[] inputs = action.Split();
-
-            switch (inputs[0].ToLower())
+            foreach (var action in actions)
             {
-                case "fadein":
-                    float fadeInDuration = inputs.Length > 1 && float.TryParse(inputs[1], out float inDuration) ? inDuration : 0.5f;
-                    return _massageWindowPresenter.FadeInBoard(fadeInDuration, token);
-                case "fadeout":
-                    float fadeOutDuration = inputs.Length > 1 && float.TryParse(inputs[1], out float outDuration) ? outDuration : 0.5f;
-                    return _massageWindowPresenter.FadeOutBoard(fadeOutDuration, token);
-                default:
-                    return Task.CompletedTask;
+                string[] inputs = action.Split();
+
+                switch (inputs[0].ToLower())
+                {
+                    case "fadein":
+                        float fadeInDuration = inputs.Length > 1 && float.TryParse(inputs[1], out float inDuration) ? inDuration : 0.5f;
+                        return _massageWindowPresenter.FadeInBoard(fadeInDuration, token);
+                    case "fadeout":
+                        float fadeOutDuration = inputs.Length > 1 && float.TryParse(inputs[1], out float outDuration) ? outDuration : 0.5f;
+                        return _massageWindowPresenter.FadeOutBoard(fadeOutDuration, token);
+                    default: break;
+                }
             }
+
+            return Task.CompletedTask;
         }
     }
 }

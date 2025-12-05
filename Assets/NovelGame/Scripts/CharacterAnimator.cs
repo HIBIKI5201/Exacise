@@ -9,26 +9,29 @@ namespace NovelGame.Scripts
     {
         public string Name => name;
 
-        public async Task PlayAction(string action, CancellationToken token = default)
+        public async Task PlayAction(string[] actions, CancellationToken token = default)
         {
-            if (string.IsNullOrEmpty(action)) return;
-
-            string[] inputs = action.Split();
-            switch (inputs[0].ToLower())
+            foreach (string action in actions)
             {
-                case "fadein":
-                    float fadeInDuration = inputs.Length > 1 && float.TryParse(inputs[1], out float inDuration) ? inDuration : 0.5f;
-                    await FadeIn(fadeInDuration, token);
-                    break;
-                    
-                case "fadeout":
-                    float fadeOutDuration = inputs.Length > 1 && float.TryParse(inputs[1], out float outDuration) ? outDuration : 0.5f;
-                    await FadeOut(fadeOutDuration, token);
-                    break;
+                if (string.IsNullOrEmpty(action)) continue;
 
-                default:
-                    await PlayAnimationAsync(inputs[0], token);
-                    break;
+                string[] inputs = action.Split();
+                switch (inputs[0].ToLower())
+                {
+                    case "fadein":
+                        float fadeInDuration = inputs.Length > 1 && float.TryParse(inputs[1], out float inDuration) ? inDuration : 0.5f;
+                        await FadeIn(fadeInDuration, token);
+                        break;
+
+                    case "fadeout":
+                        float fadeOutDuration = inputs.Length > 1 && float.TryParse(inputs[1], out float outDuration) ? outDuration : 0.5f;
+                        await FadeOut(fadeOutDuration, token);
+                        break;
+
+                    default:
+                        await PlayAnimationAsync(inputs[0], token);
+                        break;
+                }
             }
         }
 

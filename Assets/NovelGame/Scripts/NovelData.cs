@@ -22,25 +22,26 @@ namespace NovelGame.Scripts
         };
 
         [Serializable]
-        public struct TextData
+        public class TextData
         {
             public TextData(string text)
             {
-                _name = string.Empty;
                 _text = text;
-                _action = string.Empty;
             }
 
             public string Name => _name;
             public string Text => _text;
             public string Action => _action;
+            public bool IsWaitForInput => _isWaitForInput;
 
             [SerializeField]
-            private string _name;
+            private string _name = string.Empty;
             [SerializeField, TextArea(3, 10)]
-            private string _text;
+            private string _text = string.Empty;
             [SerializeField]
-            private string _action;
+            private string _action = string.Empty;
+            [SerializeField]
+            private bool _isWaitForInput = true;
         }
     }
 }
