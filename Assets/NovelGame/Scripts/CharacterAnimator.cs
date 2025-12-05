@@ -9,32 +9,6 @@ namespace NovelGame.Scripts
     {
         public string Name => name;
 
-        public async Task PlayAction(string[] actions, CancellationToken token = default)
-        {
-            foreach (string action in actions)
-            {
-                if (string.IsNullOrEmpty(action)) continue;
-
-                string[] inputs = action.Split();
-                switch (inputs[0].ToLower())
-                {
-                    case "fadein":
-                        float fadeInDuration = inputs.Length > 1 && float.TryParse(inputs[1], out float inDuration) ? inDuration : 0.5f;
-                        await FadeIn(fadeInDuration, token);
-                        break;
-
-                    case "fadeout":
-                        float fadeOutDuration = inputs.Length > 1 && float.TryParse(inputs[1], out float outDuration) ? outDuration : 0.5f;
-                        await FadeOut(fadeOutDuration, token);
-                        break;
-
-                    default:
-                        await PlayAnimationAsync(inputs[0], token);
-                        break;
-                }
-            }
-        }
-
         public async Task FadeIn(float duration = 0.5f, CancellationToken token = default)
         {
             try
@@ -110,24 +84,20 @@ namespace NovelGame.Scripts
 
         private void ChangeAllColorAlpha(float a)
         {
-            foreach (var renderer in _renderers)
+            ExcuteForAllRenderer(renderer =>
             {
                 Color color = renderer.color;
                 color.a = a;
                 renderer.color = color;
-            }
+            });
         }
 
-#if UNITY_EDITOR
-        [SerializeField]
-        private float _fadeInDuration = 2f;
-        [SerializeField]
-        private float _fadeOutDuration = 2f;
-
-        [ContextMenu("FadeIn")]
-        private void FadeIn() => _ = FadeIn(_fadeInDuration);
-        [ContextMenu("FadeOut")]
-        private void FadeOut() => _ = FadeOut(_fadeOutDuration);
-#endif
+        private void ExcuteForAllRenderer(Action<SpriteRenderer> action)
+        {
+            foreach(SpriteRenderer renderer in _renderers)
+            {
+                action(renderer);
+            }
+        }
     }
 }
