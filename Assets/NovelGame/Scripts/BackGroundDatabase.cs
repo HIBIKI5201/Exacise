@@ -9,7 +9,7 @@ namespace NovelGame.Scripts
     [CreateAssetMenu(fileName = "BackGroundDatabase", menuName = "NovelGame/BackGroundDatabase", order = 1)]
     public class BackGroundDatabase : ScriptableObject
     {
-        public Sprite this[string name] => System.Array.Find(_backgrounds, bg => bg.Name == name).Sprite;
+        public Sprite this[string name] => Array.Find(_backgrounds, bg => bg.Name == name).Sprite;
 
         [SerializeField]
         private BackgroundData[] _backgrounds;

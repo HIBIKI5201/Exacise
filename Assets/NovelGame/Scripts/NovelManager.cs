@@ -23,14 +23,13 @@ namespace NovelGame.Scripts
         [SerializeField]
         private NovelData _novelData;
 
+        private NovelObjectRepository _repository;
         private IAsyncEnumerator<byte> _textEnumerator;
         private ValueTask<bool> _textMoveNextTask;
 
         private CancellationTokenSource _taskCts;
 
         private NovelPrinter _printer;
-
-        private Dictionary<string, CharacterAnimator> _characterAnimators = new();
 
         private void Awake()
         {
@@ -40,11 +39,7 @@ namespace NovelGame.Scripts
         private void Start()
         {
             CharacterAnimator[] characters = FindObjectsByType<CharacterAnimator>(FindObjectsSortMode.None);
-            Array.ForEach(characters,
-                character =>
-                {
-                    _characterAnimators.TryAdd(character.Name, character);
-                });
+            _repository = new(_backGroundUIManager, characters, _massageWindowPresenter);
 
             _textEnumerator = NextText(_novelData, destroyCancellationToken);
             if (_massageWindowPresenter == null)
@@ -99,15 +94,16 @@ namespace NovelGame.Scripts
                 _taskCts = new();
                 CancellationToken tcn = _taskCts?.Token ?? default;
 
-                string[] actions = textData.Action.Split(", ");
-                Task textTask = _printer.ShowTextAsync(text, tcn);
-                Task characterTask = PlayCharacterActionAsync(name, actions, tcn);
-                Task uiTask = PlayUIActionAsync(name, actions, tcn);
-                Task backGroundTask = _backGroundUIManager.PlayBackGroundActionAsync(actions, tcn);
+                IAction[] actions = textData.ActionObject;
+                Task[] actionTasks = new Task[actions.Length + 1];
+                actionTasks[0] = _printer.ShowTextAsync(text, tcn);
+
+                for (int i = 0; i < actions.Length; i++) // 事前のタスクの次から入れる。
+                    { actionTasks[i + 1] = actions[i]?.ExcuteAsync(_repository, tcn) ?? Task.CompletedTask; }
 
                 try
                 {
-                    await Task.WhenAll(textTask, characterTask, uiTask);
+                    await Task.WhenAll(actionTasks);
                 }
                 catch (OperationCanceledException) { }
                 finally
@@ -125,40 +121,6 @@ namespace NovelGame.Scripts
         private void CancelShowing()
         {
             _taskCts.Cancel();
-        }
-
-        private Task PlayCharacterActionAsync(string name, string[] actions, CancellationToken token)
-        {
-            if (_characterAnimators.TryGetValue(name, out CharacterAnimator animator))
-            {
-                return animator.PlayAction(actions, token);
-            }
-
-            return Task.CompletedTask;
-        }
-
-        private Task PlayUIActionAsync(string name, string[] actions, CancellationToken token)
-        {
-            // 名前が無ければUIアクションを実行する。
-            if (!string.IsNullOrEmpty(name)) return Task.CompletedTask;
-
-            foreach (var action in actions)
-            {
-                string[] inputs = action.Split();
-
-                switch (inputs[0].ToLower())
-                {
-                    case "fadein":
-                        float fadeInDuration = inputs.Length > 1 && float.TryParse(inputs[1], out float inDuration) ? inDuration : 0.5f;
-                        return _massageWindowPresenter.FadeInBoard(fadeInDuration, token);
-                    case "fadeout":
-                        float fadeOutDuration = inputs.Length > 1 && float.TryParse(inputs[1], out float outDuration) ? outDuration : 0.5f;
-                        return _massageWindowPresenter.FadeOutBoard(fadeOutDuration, token);
-                    default: break;
-                }
-            }
-
-            return Task.CompletedTask;
         }
     }
 }
