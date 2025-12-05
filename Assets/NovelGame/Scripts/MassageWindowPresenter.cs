@@ -33,6 +33,7 @@ namespace NovelGame.Scripts
 
         public async Task FadeInBoard(float duration, CancellationToken token = default)
         {
+            _fadeBoardElement.style.opacity = 0f;
             float elapsed = 0f;
 
             try
@@ -54,6 +55,7 @@ namespace NovelGame.Scripts
 
         public async Task FadeOutBoard(float duration, CancellationToken token = default)
         {
+            _fadeBoardElement.style.opacity = 1f;
             float elapsed = 0f;
 
             try
