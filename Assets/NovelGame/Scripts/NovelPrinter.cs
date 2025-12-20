@@ -12,7 +12,7 @@ public class NovelPrinter : MonoBehaviour
     [SerializeField]
     private NovelSettings _settings;
 
-    public async Task ShowTextAsync(string text, CancellationToken token)
+    public async Task ShowTextAsync(string text, IPauseHandler ph, CancellationToken token)
     {
         // 文字を徐々に表示する。
         float showLength = 0;
@@ -30,6 +30,9 @@ public class NovelPrinter : MonoBehaviour
             try // 1フレーム待機。
             {
                 await Awaitable.NextFrameAsync(token);
+
+                // ポーズ中は停止する。
+                await ph.WaitResumeAsync(token);
             }
             catch (OperationCanceledException)
             {

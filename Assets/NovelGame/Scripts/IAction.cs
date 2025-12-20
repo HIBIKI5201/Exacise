@@ -9,6 +9,6 @@ namespace NovelGame.Scripts
     /// </summary>
     public interface IAction
     {
-        public Task ExcuteAsync(NovelObjectRepository repository, CancellationToken token = default);
+        public Task ExcuteAsync(NovelObjectRepository repository, IPauseHandler pauseHandler, CancellationToken token = default);
     }
 }

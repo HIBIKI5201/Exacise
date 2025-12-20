@@ -20,6 +20,7 @@ namespace NovelGame.Scripts
         }
 
         public Color MessageLabelColor => _messageLabel.style.color.value;
+        public SkipDialogManager SkipDialogManager => _skipDialogManager;
 
         public void SetName(string name)
         {
@@ -31,7 +32,7 @@ namespace NovelGame.Scripts
             _messageLabel.text = massage;
         }
 
-        public async Task FadeInBoard(float duration, CancellationToken token = default)
+        public async Task FadeInBoard(float duration, IPauseHandler ph, CancellationToken token = default)
         {
             _fadeBoardElement.style.opacity = 0f;
             float elapsed = 0f;
@@ -45,6 +46,7 @@ namespace NovelGame.Scripts
                     elapsed += Time.deltaTime;
 
                     await Awaitable.NextFrameAsync(token);
+                    await ph.WaitResumeAsync(token);
                 }
             }
             finally
@@ -53,7 +55,7 @@ namespace NovelGame.Scripts
             }
         }
 
-        public async Task FadeOutBoard(float duration, CancellationToken token = default)
+        public async Task FadeOutBoard(float duration, IPauseHandler ph, CancellationToken token = default)
         {
             _fadeBoardElement.style.opacity = 1f;
             float elapsed = 0f;
@@ -67,6 +69,8 @@ namespace NovelGame.Scripts
                     elapsed += Time.deltaTime;
 
                     await Awaitable.NextFrameAsync(token);
+                    await ph.WaitResumeAsync(token);
+
                 }
             }
             finally
@@ -81,6 +85,10 @@ namespace NovelGame.Scripts
         private string _messageLabelName = "message";
         [SerializeField]
         private string _clickButtonName = "click-button";
+        [SerializeField]
+        private string _skipButtonName = "skip-button";
+        [SerializeField]
+        private string _skipDialogName = "skip-dialog";
 
         [SerializeField]
         private string _fadeBoard = "fade-board";
@@ -90,8 +98,12 @@ namespace NovelGame.Scripts
         private Label _nameLabel;
         private Label _messageLabel;
         private Button _clickButton;
+        private Button _skipButton;
+        private VisualElement _skipDialog;
 
         private VisualElement _fadeBoardElement;
+
+        private SkipDialogManager _skipDialogManager;
 
         private void Awake()
         {
@@ -104,12 +116,19 @@ namespace NovelGame.Scripts
             _nameLabel = root.Q<Label>(_nameLabelName);
             _messageLabel = root.Q<Label>(_messageLabelName);
             _clickButton = root.Q<Button>(_clickButtonName);
+            _skipButton = root.Q<Button>(_skipButtonName);
+            _skipDialog = root.Q<VisualElement>(_skipDialogName);
             _fadeBoardElement = root.Q<VisualElement>(_fadeBoard);
 
             Debug.Assert(_nameLabel != null, $"{_nameLabelName}という名前のLabelが見つかりません。", this);
             Debug.Assert(_messageLabel != null, $"{_messageLabelName}という名前のLabelが見つかりません。", this);
             Debug.Assert(_clickButton != null, $"{_clickButtonName}という名前のButtonが見つかりません。", this);
+            Debug.Assert(_skipButton != null, $"{_skipButtonName}という名前のButtonが見つかりません。", this);
+            Debug.Assert(_skipDialog != null, $"{_skipDialogName}という名前のVisualElementが見つかりません。", this);
             Debug.Assert(_fadeBoardElement != null, $"{_fadeBoard}という名前のVisualElementが見つかりません。", this);
+
+            if (_skipButton != null && _skipDialog != null) { _skipDialogManager = new(_skipButton, _skipDialog); }
+            else { Debug.LogError("スキップ機能が生成されませんでした"); }
         }
     }
 }

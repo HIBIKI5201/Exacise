@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.InputSystem.iOS;
 
 namespace NovelGame.Scripts
 {
@@ -88,6 +89,7 @@ namespace NovelGame.Scripts
                 NovelData.TextData textData = _novelData[index];
                 string name = textData.Name;
                 _massageWindowPresenter.SetName(name);
+                IPauseHandler pauseHandler = _massageWindowPresenter.SkipDialogManager;
 
                 string text = textData.Text;
 
@@ -96,10 +98,10 @@ namespace NovelGame.Scripts
 
                 IAction[] actions = textData.ActionObject;
                 Task[] actionTasks = new Task[actions.Length + 1];
-                actionTasks[0] = _printer.ShowTextAsync(text, tcn);
+                actionTasks[0] = _printer.ShowTextAsync(text, pauseHandler, tcn);
 
                 for (int i = 0; i < actions.Length; i++) // 事前のタスクの次から入れる。
-                    { actionTasks[i + 1] = actions[i]?.ExcuteAsync(_repository, tcn) ?? Task.CompletedTask; }
+                { actionTasks[i + 1] = actions[i]?.ExcuteAsync(_repository, pauseHandler, tcn) ?? Task.CompletedTask; }
 
                 try
                 {
