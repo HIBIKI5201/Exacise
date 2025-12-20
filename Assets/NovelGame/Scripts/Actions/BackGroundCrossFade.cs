@@ -10,10 +10,10 @@ namespace NovelGame.Scripts
     /// </summary>
     public class BackGroundCrossFade : BackGroundActionBase
     {
-        protected override Task Proccess(BackGroundUIManager manager, CancellationToken token)
+        protected override Task Proccess(BackGroundUIManager manager, IPauseHandler ph, CancellationToken token)
         {
             Sprite newSprite = manager.Database[_assetName];
-            return manager.CrossFadeAsync(newSprite, _duration, token);
+            return manager.CrossFadeAsync(newSprite, _duration, ph, token);
         }
 
         [SerializeField]

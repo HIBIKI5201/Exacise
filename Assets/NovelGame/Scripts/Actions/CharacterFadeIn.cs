@@ -6,9 +6,9 @@ namespace NovelGame.Scripts
 {
     public class CharacterFadeIn : CharacterActionBase
     {
-        protected override async Task Proccess(CharacterAnimator character, CancellationToken token)
+        protected override async Task Proccess(CharacterAnimator character, IPauseHandler ph, CancellationToken token)
         {
-            await character.FadeIn(_duration, token);
+            await character.FadeIn(_duration, ph, token);
         }
 
         [SerializeField]

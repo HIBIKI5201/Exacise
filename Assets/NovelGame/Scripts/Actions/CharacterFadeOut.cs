@@ -6,9 +6,9 @@ namespace NovelGame.Scripts
 {
     public class CharacterFadeOut : CharacterActionBase
     {
-        protected override async Task Proccess(CharacterAnimator character, CancellationToken token)
+        protected override async Task Proccess(CharacterAnimator character, IPauseHandler ph, CancellationToken token)
         {
-            await character.FadeOut(_duration, token);
+            await character.FadeOut(_duration, ph, token);
         }
 
 

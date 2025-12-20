@@ -28,7 +28,7 @@ namespace NovelGame.Scripts
             _front.sprite = sprite;
         }
 
-        public async Task CrossFadeAsync(Sprite sprite, float duration, CancellationToken token = default)
+        public async Task CrossFadeAsync(Sprite sprite, float duration, IPauseHandler ph, CancellationToken token = default)
         {
             _back.sprite = sprite;
 
@@ -42,6 +42,7 @@ namespace NovelGame.Scripts
                 try
                 {
                     await Awaitable.NextFrameAsync(token);
+                    await ph.WaitResumeAsync(token);
                 }
                 catch (OperationCanceledException)
                 {

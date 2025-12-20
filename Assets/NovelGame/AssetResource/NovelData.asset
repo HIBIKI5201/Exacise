@@ -14,33 +14,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NovelGame.Scripts.NovelData
   _textDatas:
   - _name: ' '
-    _text: "(\u6697\u8EE2)"
-    _action: "FadeOut 1, ChangeBackGround \u8857\u4E2D\u306E\u4EA4\u5DEE\u70B9 1"
+    _text: 
     _actionObject:
     - rid: 7747500996920869282
-    _isWaitForInput: 1
+    _isWaitForInput: 0
   - _name: Kohaku
     _text: "\u3053\u3093\u306B\u3061\u306F\u3001\u4E16\u754C\uFF01"
-    _action: 
     _actionObject:
     - rid: 7747500996920869283
     _isWaitForInput: 1
   - _name: Kohaku
     _text: "\u3053\u308C\u306F\u30CE\u30D9\u30EB\u30B2\u30FC\u30E0\u306E\u30B5\u30F3\u30D7\u30EB\u30C6\u30AD\u30B9\u30C8\u3067\u3059\u3002"
-    _action: 
     _actionObject:
     - rid: 7747500996920869444
     _isWaitForInput: 1
   - _name: Kohaku
     _text: "Unity\u3067\u30CE\u30D9\u30EB\u30B2\u30FC\u30E0\u3092\u4F5C\u6210\u3057\u307E\u3057\u3087\u3046\uFF01"
-    _action: 
     _actionObject:
     - rid: 7747500996920869448
     _isWaitForInput: 1
   - _name: ' '
     _text: "Unity\u3061\u3083\u3093\u306F\u6D88\u3048\u307E\u3057\u305F\u3002"
-    _action: 
-    _actionObject: []
+    _actionObject:
+    - rid: 7747500996920869488
     _isWaitForInput: 1
   references:
     version: 2
@@ -48,7 +44,7 @@ MonoBehaviour:
     - rid: 7747500996920869282
       type: {class: NovelUIBoardFadeOut, ns: NovelGame.Scripts.Actions, asm: Assembly-CSharp}
       data:
-        _duration: 0.5
+        _duration: 1
     - rid: 7747500996920869283
       type: {class: BackGroundCrossFade, ns: NovelGame.Scripts, asm: Assembly-CSharp}
       data:
@@ -64,3 +60,7 @@ MonoBehaviour:
       data:
         _characterName: Kohaku
         _duration: 2
+    - rid: 7747500996920869488
+      type: {class: NovelUIBoardFadeIn, ns: NovelGame.Scripts.Actions, asm: Assembly-CSharp}
+      data:
+        _duration: 0.5

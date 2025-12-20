@@ -10,9 +10,9 @@ namespace NovelGame.Scripts
 
     public class CharacterPlayAnimationClip : CharacterActionBase
     {
-        protected override async Task Proccess(CharacterAnimator character, CancellationToken token)
+        protected override async Task Proccess(CharacterAnimator character, IPauseHandler ph, CancellationToken token)
         {
-            await character.PlayAnimationAsync(_animationClipName, token);
+            await character.PlayAnimationAsync(_animationClipName, ph, token);
         }
 
         [SerializeField]

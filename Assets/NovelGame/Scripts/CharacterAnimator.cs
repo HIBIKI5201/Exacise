@@ -8,8 +8,8 @@ namespace NovelGame.Scripts
     public class CharacterAnimator : MonoBehaviour
     {
         public string Name => name;
-
-        public async Task FadeIn(float duration = 0.5f, CancellationToken token = default)
+        
+        public async Task FadeIn(float duration = 0.5f, IPauseHandler ph = null, CancellationToken token = default)
         {
             try
             {
@@ -24,6 +24,7 @@ namespace NovelGame.Scripts
                     elapsed += Time.deltaTime;
 
                     await Awaitable.NextFrameAsync(token);
+                    if (ph != null) { await ph.WaitResumeAsync(token); }
                 }
             }
             finally
@@ -33,7 +34,7 @@ namespace NovelGame.Scripts
             }
         }
 
-        public async Task FadeOut(float duration = 0.5f, CancellationToken token = default)
+        public async Task FadeOut(float duration = 0.5f, IPauseHandler ph = null, CancellationToken token = default)
         {
             try
             {
@@ -46,6 +47,7 @@ namespace NovelGame.Scripts
                     elapsed += Time.deltaTime;
 
                     await Awaitable.NextFrameAsync(token);
+                    if (ph != null) { await ph.WaitResumeAsync(token); }
                 }
             }
             finally
@@ -55,7 +57,7 @@ namespace NovelGame.Scripts
             }
         }
 
-        public async Task PlayAnimationAsync(string animation, CancellationToken token = default)
+        public async Task PlayAnimationAsync(string animation, IPauseHandler ph, CancellationToken token = default)
         {
             _animator.Play(animation);
 
@@ -66,6 +68,7 @@ namespace NovelGame.Scripts
             try
             {
                 await Awaitable.WaitForSecondsAsync(animationLength, token);
+                if (ph != null) { await ph.WaitResumeAsync(token); }
             }
             catch (OperationCanceledException)
             {

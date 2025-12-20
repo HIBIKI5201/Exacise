@@ -8,11 +8,11 @@ namespace NovelGame.Scripts
     /// </summary>
     public abstract class NovelUIActionBase : IAction
     {
-        public async Task ExcuteAsync(NovelObjectRepository repository, CancellationToken token = default)
+        public async Task ExcuteAsync(NovelObjectRepository repository, IPauseHandler ph, CancellationToken token = default)
         {
-            await Proccess(repository.MassageWindowPresenter, token);
+            await Proccess(repository.MassageWindowPresenter, ph, token);
         }
 
-        protected abstract Task Proccess(MassageWindowPresenter manager, CancellationToken token);
+        protected abstract Task Proccess(MassageWindowPresenter manager, IPauseHandler ph, CancellationToken token);
     }
 }

@@ -10,16 +10,16 @@ namespace NovelGame.Scripts
     /// </summary>
     public abstract class CharacterActionBase : IAction
     {
-        public async Task ExcuteAsync(NovelObjectRepository repository, CancellationToken token = default)
+        public async Task ExcuteAsync(NovelObjectRepository repository, IPauseHandler ph, CancellationToken token = default)
         {
             CharacterAnimator character =
                 Array.Find(repository.CharacterAnimators, c => c.Name == _characterName);
-            await Proccess(character, token);
+            await Proccess(character, ph,token);
         }
 
         [SerializeField]
         protected string _characterName;
 
-        protected abstract Task Proccess(CharacterAnimator character, CancellationToken token);
+        protected abstract Task Proccess(CharacterAnimator character, IPauseHandler ph, CancellationToken token);
     }
 }
