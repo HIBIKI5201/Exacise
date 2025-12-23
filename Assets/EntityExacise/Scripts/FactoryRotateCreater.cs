@@ -16,11 +16,11 @@ namespace EntityExacise
         [Serializable]
         private struct EntityData
         {
-            public Vector3 Position => _transform?.position ?? Vector3.zero;
+            public Vector3 Position => _position;
             public float RotationSpeed => _rotationSpeed;
 
             [SerializeField]
-            private Transform _transform;
+            private Vector3 _position;
             [SerializeField]
             private float _rotationSpeed;
         }
