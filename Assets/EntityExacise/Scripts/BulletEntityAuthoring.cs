@@ -42,7 +42,7 @@ namespace EntityExacise
 
             void Execute(in BulletVelocity velocity, ref LocalTransform transform)
             {
-                transform.Position = transform.Position + velocity.Direction * velocity.Value * DeltaTime;
+                transform.Position = transform.Position + velocity.Direction * velocity.Speed * DeltaTime;
             }
         }
     }

@@ -22,6 +22,7 @@ namespace EntityExacise
                 // GameObject プレハブから Entity プレハブを取得して追加
                 foreach (var prefab in authoring.bulletPrefabs)
                 {
+                    Debug.Log($"{prefab.name}を追加");
                     buffer.Add(new BulletPrefabElement
                     {
                         Prefab = GetEntity(prefab, TransformUsageFlags.Dynamic)
@@ -57,14 +58,15 @@ namespace EntityExacise
     {
         public BulletVelocity(float value, float3 dir)
         {
-            Value = value;
+            Speed = value;
             Direction = dir;
         }
 
-        public float3 Value;
+        public float Speed;
         public float3 Direction;
     }
 
+    [UpdateInGroup(typeof(SimulationSystemGroup))]
     public partial struct BulletSpawnSystem : ISystem
     {
         public void OnUpdate(ref SystemState state)
