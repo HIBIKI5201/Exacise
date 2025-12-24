@@ -31,11 +31,21 @@ namespace EntityExacise
         }
     }
 
-    public struct BulletSpawnRequest : IComponentData
+    public readonly struct BulletSpawnRequest : IComponentData
     {
-        public int PrefabIndex;
-        public float3 Position;
-        public float3 Forward;
+        public BulletSpawnRequest(
+            int index,
+            float3 position,
+            float3 forward)
+        {
+            PrefabIndex = index;
+            Position = position;
+            Forward = forward;
+        }
+
+        public readonly int PrefabIndex;
+        public readonly float3 Position;
+        public readonly float3 Forward;
     }
 
     public struct BulletPrefabElement : IBufferElementData
@@ -60,10 +70,13 @@ namespace EntityExacise
         public void OnUpdate(ref SystemState state)
         {
             if (!SystemAPI.TryGetSingletonBuffer<BulletPrefabElement>(out var prefabBuffer))
-                return;
+            {
+                throw new System.ArgumentException("Bullet Prefab Element is not found");
+            }
 
             var ecb = new EntityCommandBuffer(Unity.Collections.Allocator.Temp);
 
+            // リクエストを取得。
             foreach (var (request, entity)
                 in SystemAPI.Query<RefRO<BulletSpawnRequest>>()
                             .WithEntityAccess())
@@ -78,11 +91,6 @@ namespace EntityExacise
                 ecb.SetComponent(bullet, LocalTransform.FromPosition(
                     request.ValueRO.Position
                 ));
-
-                ecb.AddComponent(bullet, new BulletVelocity
-                {
-                    Value = request.ValueRO.Forward * 10f
-                });
 
                 // リクエスト消費
                 ecb.DestroyEntity(entity);
