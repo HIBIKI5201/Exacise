@@ -1,3 +1,4 @@
+using Unity.Burst;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
@@ -57,34 +58,49 @@ namespace EntityExacise
         public readonly float3 Diff;
     }
 
+    [BurstCompile]
     public partial struct SpawnSystem : ISystem
     {
+        [BurstCompile]
         public void OnUpdate(ref SystemState state)
         {
-            // ECB を作成（1フレーム限定）
-            var ecb = new EntityCommandBuffer(Unity.Collections.Allocator.Temp);
+            var ecbSingleton =
+                SystemAPI.GetSingleton<EndSimulationEntityCommandBufferSystem.Singleton>();
 
-            foreach (var (spawner, entity) in
-                     SystemAPI.Query<SubSceneMultiRotateAuthoringTag>()
-                              .WithEntityAccess())
+            var job = new SpawnJob
             {
-                for (int i = 0; i < spawner.Count; i++)
-                {
-                    Entity e = ecb.Instantiate(spawner.Prefab);
+                ECB = ecbSingleton
+                    .CreateCommandBuffer(state.WorldUnmanaged)
+                    .AsParallelWriter()
+            };
 
-                    ecb.SetComponent(
-                        e,
-                        LocalTransform.FromPosition(
-                            spawner.BasePosition + i * spawner.Diff));
-                }
-
-                // スポナーは処理後に破棄
-                ecb.DestroyEntity(entity);
-            }
-
-            // ★ ここで一括実行
-            ecb.Playback(state.EntityManager);
-            ecb.Dispose();
+            job.ScheduleParallel();
         }
     }
+
+    [BurstCompile]
+    public partial struct SpawnJob : IJobEntity
+    {
+        public EntityCommandBuffer.ParallelWriter ECB;
+
+        void Execute(
+            [EntityIndexInQuery] int index,
+            Entity entity,
+            in SubSceneMultiRotateAuthoringTag spawner)
+        {
+            for (int i = 0; i < spawner.Count; i++)
+            {
+                Entity e = ECB.Instantiate(index, spawner.Prefab);
+
+                ECB.SetComponent(
+                    index,
+                    e,
+                    LocalTransform.FromPosition(
+                        spawner.BasePosition + i * spawner.Diff));
+            }
+
+            ECB.DestroyEntity(index, entity);
+        }
+    }
+
 }

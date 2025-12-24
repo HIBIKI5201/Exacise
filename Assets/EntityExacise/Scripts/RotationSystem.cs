@@ -10,16 +10,26 @@ namespace EntityExacise
     {
         public void OnUpdate(ref SystemState state)
         {
-            float deltaTime = SystemAPI.Time.DeltaTime;
-
-            foreach (var (speed, transform) in
-                     SystemAPI.Query<RotationSpeed, RefRW<LocalTransform>>())
+            var job = new RotationJob
             {
-                float degrees = speed.DegreesPerSecond * deltaTime;
+                DeltaTime = SystemAPI.Time.DeltaTime
+            };
+
+            // 並列スケジューリング
+            job.ScheduleParallel();
+        }
+
+        [BurstCompile]
+        public partial struct RotationJob : IJobEntity
+        {
+            public float DeltaTime;
+
+            void Execute(in RotationSpeed speed, ref LocalTransform transform)
+            {
+                float degrees = speed.DegreesPerSecond * DeltaTime;
                 float radians = math.radians(degrees);
 
-                transform.ValueRW =
-                    transform.ValueRW.RotateY(radians);
+                transform = transform.RotateY(radians);
             }
         }
     }

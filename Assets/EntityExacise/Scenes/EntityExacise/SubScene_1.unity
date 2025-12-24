@@ -277,7 +277,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: EntityExacise::SubSceneMultiRotateAuthoring
   _degreesPerSecond: 60
-  _count: 4
+  _count: 100
   _diff: {x: 2, y: 0, z: 0}
 --- !u!65 &683579190
 BoxCollider:

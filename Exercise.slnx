@@ -9,8 +9,8 @@
   <Project Path="GridDungeon.csproj" />
   <Project Path="2DUnitychanSamples.csproj" />
   <Project Path="Fusion.Unity.Editor.csproj" />
-  <Project Path="URPWizard.csproj" />
   <Project Path="EntityExacise.csproj" />
+  <Project Path="URPWizard.csproj" />
   <Project Path="Unity.Fusion.CodeGen.csproj" />
   <Project Path="Assembly-CSharp-Editor.csproj" />
 </Solution>
