@@ -18,15 +18,12 @@ namespace EntityExacise
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                float3 pos = transform.position + transform.forward * 1.0f;
+                Debug.Log("fire");
 
+                float3 pos = transform.position;
                 var request = _entityManager.CreateEntity();
-                _entityManager.AddComponentData(request, new BulletSpawnRequest
-                {
-                    PrefabIndex = _bulletIndex,
-                    Position = pos,
-                    Forward = transform.forward
-                });
+                _entityManager.AddComponentData(request,
+                    new BulletSpawnRequest(_bulletIndex, pos, transform.forward));
             }
         }
     }
