@@ -83,6 +83,8 @@ namespace NovelGame.Scripts
         {
             _animator = GetComponent<Animator>();
             _renderers = GetComponentsInChildren<SpriteRenderer>();
+
+            ChangeAllColorAlpha(0); // 非表示。
         }
 
         private void ChangeAllColorAlpha(float a)
