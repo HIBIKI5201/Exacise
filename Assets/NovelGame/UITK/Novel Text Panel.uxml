@@ -6,7 +6,7 @@
         <ui:Label text="Label" name="message" picking-mode="Ignore" style="flex-grow: 1; font-size: 35px; border-top-width: 15px; border-right-width: 15px; border-bottom-width: 15px; border-left-width: 15px; -unity-font-definition: url(&quot;project://database/Assets/Akasaka/2-1/IPAexfont00401/ipaexm%20SDF_Core.asset?fileID=11400000&amp;guid=e8790849f08e40940811a16b817ad36e&amp;type=2#ipaexm SDF_Core&quot;);" />
     </ui:VisualElement>
     <ui:Button text="Skip&#10;" name="skip-button" style="position: absolute; right: 10px; top: 10px; width: 100px;" />
-    <ui:VisualElement picking-mode="Ignore" style="position: absolute; height: 100%; align-self: center; justify-content: center;">
+    <ui:VisualElement name="skip-root" style="position: absolute; height: 100%; align-self: center; justify-content: center; width: 100%; align-items: center;">
         <ui:VisualElement name="skip-dialog" style="width: 500px; height: 300px; background-color: rgb(83, 83, 83); justify-content: space-around;">
             <ui:Label text="スキップしますか？" style="font-size: 40px; -unity-text-align: upper-center;" />
             <ui:VisualElement style="flex-direction: row; justify-content: space-evenly;">
