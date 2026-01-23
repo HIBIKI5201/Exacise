@@ -88,6 +88,8 @@ namespace NovelGame.Scripts
         [SerializeField]
         private string _skipButtonName = "skip-button";
         [SerializeField]
+        private string _skipRootName = "skip-root";
+        [SerializeField]
         private string _skipDialogName = "skip-dialog";
 
         [SerializeField]
@@ -99,15 +101,18 @@ namespace NovelGame.Scripts
         private Label _messageLabel;
         private Button _clickButton;
         private Button _skipButton;
+        private VisualElement _skipRoot;
         private VisualElement _skipDialog;
 
         private VisualElement _fadeBoardElement;
 
         private SkipDialogManager _skipDialogManager;
 
-        private void Awake()
+        private async Task Awake()
         {
             _document = GetComponent<UIDocument>();
+
+            CancellationTokenSource s = new();
         }
 
         private void Start()
@@ -117,6 +122,7 @@ namespace NovelGame.Scripts
             _messageLabel = root.Q<Label>(_messageLabelName);
             _clickButton = root.Q<Button>(_clickButtonName);
             _skipButton = root.Q<Button>(_skipButtonName);
+            _skipRoot = root.Q<VisualElement>(_skipRootName);
             _skipDialog = root.Q<VisualElement>(_skipDialogName);
             _fadeBoardElement = root.Q<VisualElement>(_fadeBoard);
 
@@ -127,7 +133,7 @@ namespace NovelGame.Scripts
             Debug.Assert(_skipDialog != null, $"{_skipDialogName}という名前のVisualElementが見つかりません。", this);
             Debug.Assert(_fadeBoardElement != null, $"{_fadeBoard}という名前のVisualElementが見つかりません。", this);
 
-            if (_skipButton != null && _skipDialog != null) { _skipDialogManager = new(_skipButton, _skipDialog); }
+            if (_skipButton != null && _skipDialog != null) { _skipDialogManager = new(_skipButton, _skipRoot, _skipDialog); }
             else { Debug.LogError("スキップ機能が生成されませんでした"); }
         }
     }
