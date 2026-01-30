@@ -1,0 +1,6 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Template name="CharacterLabel" src="project://database/Assets/UITKExacise/Resources/UITK/uxml/CharacterLabel.uxml?fileID=9197481963319205126&amp;guid=6a83e00003342ae44abd0947c6b102b6&amp;type=3#CharacterLabel" />
+    <Style src="project://database/Assets/UITKExacise/Resources/UITK/uss/font_default.uss?fileID=7433441132597879392&amp;guid=adb087fdd43a25247b9b751b7b699e87&amp;type=3#font_default" />
+    <UITKExacise.Scripts.ScrollWindow />
+    <ui:Instance template="CharacterLabel" data-source="project://database/Assets/UITKExacise/Arts/CharacterData_1.asset?fileID=11400000&amp;guid=c49ac5d2204e8764ea9c3920afa4f5a5&amp;type=2#CharacterData_1" />
+</ui:UXML>

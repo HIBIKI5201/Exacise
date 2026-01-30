@@ -1,0 +1,4 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UITKExacise/Resources/UITK/uss/font_default.uss?fileID=7433441132597879392&amp;guid=adb087fdd43a25247b9b751b7b699e87&amp;type=3#font_default" />
+    <ui:Button text="Button" class="menu-button" />
+</ui:UXML>
