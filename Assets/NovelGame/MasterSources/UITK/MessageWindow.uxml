@@ -1,0 +1,15 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement data-source-type="NovelGame.Master.Scripts.UI.MessageWindowViewModel, Assembly-CSharp" style="width: 80%; height: 350px; align-self: center; position: absolute; bottom: 50px; background-color: rgba(255, 255, 255, 0.8);">
+        <ui:Button name="click-button" style="position: absolute; flex-grow: 1; background-color: rgba(0, 0, 0, 0); width: 100%; height: 100%; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" />
+        <ui:Label text="Name" name="name" picking-mode="Ignore" style="font-size: 55px; -unity-font-definition: url(&quot;project://database/Assets/Akasaka/2-1/IPAexfont00401/ipaexm%20SDF_Core.asset?fileID=11400000&amp;guid=e8790849f08e40940811a16b817ad36e&amp;type=2#ipaexm SDF_Core&quot;);">
+            <Bindings>
+                <ui:DataBinding property="text" data-source-path="_characterName" binding-mode="ToTarget" />
+            </Bindings>
+        </ui:Label>
+        <ui:Label text="Label" name="message" picking-mode="Ignore" style="flex-grow: 1; font-size: 35px; border-top-width: 15px; border-right-width: 15px; border-bottom-width: 15px; border-left-width: 15px; -unity-font-definition: url(&quot;project://database/Assets/Akasaka/2-1/IPAexfont00401/ipaexm%20SDF_Core.asset?fileID=11400000&amp;guid=e8790849f08e40940811a16b817ad36e&amp;type=2#ipaexm SDF_Core&quot;);">
+            <Bindings>
+                <ui:DataBinding property="text" data-source-path="_messageText" binding-mode="ToTarget" />
+            </Bindings>
+        </ui:Label>
+    </ui:VisualElement>
+</ui:UXML>

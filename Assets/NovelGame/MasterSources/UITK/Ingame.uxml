@@ -1,0 +1,4 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Template name="MessageWindow" src="project://database/Assets/NovelGame/MasterSources/UITK/MessageWindow.uxml?fileID=9197481963319205126&amp;guid=a897ee9f28da89b48b99456469d9358f&amp;type=3#MessageWindow" />
+    <ui:Instance template="MessageWindow" name="MessageWindow" style="flex-grow: 1;" />
+</ui:UXML>
