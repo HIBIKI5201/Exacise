@@ -18,8 +18,6 @@ namespace EntityExacise
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                Debug.Log("fire");
-
                 float3 pos = transform.position;
                 var request = _entityManager.CreateEntity();
                 _entityManager.AddComponentData(request,

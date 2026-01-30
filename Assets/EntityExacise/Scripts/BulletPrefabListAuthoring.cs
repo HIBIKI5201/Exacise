@@ -22,6 +22,8 @@ namespace EntityExacise
                 // GameObject プレハブから Entity プレハブを取得して追加
                 foreach (var prefab in authoring.bulletPrefabs)
                 {
+                    if (prefab == null) continue;
+
                     Debug.Log($"{prefab.name}を追加");
                     buffer.Add(new BulletPrefabElement
                     {
@@ -69,11 +71,17 @@ namespace EntityExacise
     [UpdateInGroup(typeof(SimulationSystemGroup))]
     public partial struct BulletSpawnSystem : ISystem
     {
+        public void OnCreate(ref SystemState state)
+        {
+            state.RequireForUpdate<BulletPrefabElement>();
+        }
+
         public void OnUpdate(ref SystemState state)
         {
             if (!SystemAPI.TryGetSingletonBuffer<BulletPrefabElement>(out var prefabBuffer))
             {
-                throw new System.ArgumentException("Bullet Prefab Element is not found");
+                Debug.LogError("Bullet Prefab Element is not found");
+                return;
             }
 
             var ecb = new EntityCommandBuffer(Unity.Collections.Allocator.Temp);
