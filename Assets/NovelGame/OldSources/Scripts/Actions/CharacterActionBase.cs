@@ -10,6 +10,8 @@ namespace NovelGame.Scripts
     /// </summary>
     public abstract class CharacterActionBase : IAction
     {
+        public CharacterActionBase(string characterName) => _characterName = characterName;
+
         public async Task ExcuteAsync(NovelObjectRepository repository, IPauseHandler ph, CancellationToken token = default)
         {
             CharacterAnimator character =

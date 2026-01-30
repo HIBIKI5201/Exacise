@@ -355,11 +355,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1516321544}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 084a216fc1f961e408623c05685002d3, type: 3}
+  m_Script: {fileID: 11500000, guid: 82779e35f5db93642b5018bd09e4e70c, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TaskSample
-  _rotateSpeed: 1
-  _jobSize: 10000000
+  m_EditorClassIdentifier: NovelGame::AsyncSample
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

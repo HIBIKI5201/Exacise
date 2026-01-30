@@ -16,6 +16,12 @@ namespace NovelGame.Scripts
             return manager.CrossFadeAsync(newSprite, _duration, ph, token);
         }
 
+        public BackGroundCrossFade(string assetName, float duration)
+        {
+            _assetName = assetName;
+            _duration = duration;
+        }
+
         [SerializeField]
         private string _assetName;
         [SerializeField]

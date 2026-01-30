@@ -269,6 +269,9 @@ MonoBehaviour:
   _nameLabelName: name
   _messageLabelName: message
   _clickButtonName: click-button
+  _skipButtonName: skip-button
+  _skipRootName: skip-root
+  _skipDialogName: skip-dialog
   _fadeBoard: fade-board
 --- !u!1 &543926529
 GameObject:
@@ -514,12 +517,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 843747600}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.6, y: -0.8, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -13.347639, y: 11.14124, z: -8.69138}
   m_LocalScale: {x: -0.35, y: 0.35, z: 0.35}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1772253273}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &843747604
 MonoBehaviour:
@@ -533,8 +536,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af07f1f41229cd74e93a048d5a819bad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NovelGame.Scripts.CharacterAnimator
-  _fadeInDuration: 2
-  _fadeOutDuration: 2
 --- !u!1 &1737467783
 GameObject:
   m_ObjectHideFlags: 0
@@ -544,10 +545,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1737467787}
+  - component: {fileID: 1737467788}
   - component: {fileID: 1737467786}
   - component: {fileID: 1737467785}
   - component: {fileID: 1737467784}
-  - component: {fileID: 1737467788}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -654,6 +655,38 @@ MonoBehaviour:
   _front: {fileID: 1828474592}
   _back: {fileID: 543926531}
   _database: {fileID: 11400000, guid: 95feb3ba661d4d34abe207eefa5a9fa3, type: 2}
+--- !u!1 &1772253272
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1772253273}
+  m_Layer: 0
+  m_Name: Characters
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1772253273
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1772253272}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 8.74764, y: -11.94124, z: 8.69138}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 843747603}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1828474590
 GameObject:
   m_ObjectHideFlags: 0
@@ -874,5 +907,5 @@ SceneRoots:
   - {fileID: 805957967}
   - {fileID: 336034628}
   - {fileID: 218973144}
-  - {fileID: 843747603}
   - {fileID: 1737467787}
+  - {fileID: 1772253273}

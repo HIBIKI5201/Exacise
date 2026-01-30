@@ -10,6 +10,11 @@ namespace NovelGame.Scripts
 
     public class CharacterPlayAnimationClip : CharacterActionBase
     {
+        public CharacterPlayAnimationClip(string clipName, string name) : base(name)
+        {
+            _animationClipName = clipName;
+        }
+
         protected override async Task Proccess(CharacterAnimator character, IPauseHandler ph, CancellationToken token)
         {
             await character.PlayAnimationAsync(_animationClipName, ph, token);

@@ -9,14 +9,14 @@ namespace NovelGame.Scripts
     [CreateAssetMenu(fileName = nameof(NovelData), menuName = nameof(NovelData), order = 0)]
     public class NovelData : ScriptableObject
     {
-        public NovelData(TextData[] textDatas)
-        {
-            _textDatas = textDatas;
-        }
-
         public TextData this[int index] => _textDatas[index];
         public int Length => _textDatas.Length;
         public TextData[] TextDatas => _textDatas;
+
+        public void Initialize(TextData[] textDatas)
+        {
+            _textDatas = textDatas;
+        }
 
         [SerializeField]
         private TextData[] _textDatas =

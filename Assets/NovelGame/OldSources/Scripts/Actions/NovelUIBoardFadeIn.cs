@@ -9,6 +9,11 @@ namespace NovelGame.Scripts.Actions
     /// </summary>
     public class NovelUIBoardFadeIn : NovelUIActionBase
     {
+        public NovelUIBoardFadeIn(float duration)
+        {
+            _duration = duration;
+        }
+
         protected override async Task Proccess(MassageWindowPresenter manager, IPauseHandler ph, CancellationToken token)
         {
             await manager.FadeInBoard(_duration, ph, token);

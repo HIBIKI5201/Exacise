@@ -108,7 +108,7 @@ namespace NovelGame.Scripts
 
         private SkipDialogManager _skipDialogManager;
 
-        private async Task Awake()
+        private async void Awake()
         {
             _document = GetComponent<UIDocument>();
 
