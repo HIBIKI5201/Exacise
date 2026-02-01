@@ -15,6 +15,12 @@ namespace NovelGame.Master.Scripts.UI
 
         public async ValueTask FadeIn(float duration = 0.5f, IPauseHandler ph = null, CancellationToken token = default)
         {
+            if (duration <= 0f)
+            {
+                ChangeAllColorAlpha(1f);
+                return;
+            }
+
             try
             {
                 // 経過時間に基づいてアルファ値を計算。
@@ -40,6 +46,12 @@ namespace NovelGame.Master.Scripts.UI
 
         public async ValueTask FadeOut(float duration = 0.5f, IPauseHandler ph = null, CancellationToken token = default)
         {
+            if (duration <= 0f)
+            {
+                ChangeAllColorAlpha(0f);
+                return;
+            }
+
             try
             {
                 // 経過時間に基づいてアルファ値を計算。
