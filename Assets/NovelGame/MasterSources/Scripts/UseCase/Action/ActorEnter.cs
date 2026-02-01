@@ -10,7 +10,12 @@ namespace NovelGame.Master
 {
     public class ActorEnter : IScenarioAction
     {
-        public ActorEnter() { }
+        public ActorEnter()
+        {
+            _actorName = string.Empty;
+            _duration = 0.5f;
+            _position = Vector2.zero;
+        }
 
         public ActorEnter(string actorName, float duration, Vector2 position)
         {
