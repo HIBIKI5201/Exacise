@@ -1,6 +1,0 @@
-<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <ui:VisualElement name="back-ground" style="position: absolute; width: 100%; height: 100%;">
-        <ui:VisualElement name="back" style="width: 100%; height: 100%; position: absolute; background-image: url(&quot;project://database/Assets/Suzuki/2-2%20Data%20in%20Scenes/Bird2.png?fileID=2800000&amp;guid=5c300cc260554554c8be9396ff6f74ed&amp;type=3#Bird2&quot;);" />
-        <ui:VisualElement name="front" style="width: 100%; height: 100%; position: absolute; background-image: url(&quot;project://database/Assets/Suzuki/2-3%20UnityEvent/1%20Button/Apple.png?fileID=2800000&amp;guid=e935e38436eff8d468085a58712c494f&amp;type=3#Apple&quot;);" />
-    </ui:VisualElement>
-</ui:UXML>
