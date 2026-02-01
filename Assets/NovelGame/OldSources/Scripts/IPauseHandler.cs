@@ -2,14 +2,19 @@ using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public interface IPauseHandler
+namespace NovelGame.Scripts
 {
-    public bool IsPaused { get; }
-    public async ValueTask WaitResumeAsync(CancellationToken token = default)
+    /// <summary>
+    ///     一時停止の状態を扱います。
+    /// </summary>
+    public interface IPauseHandler
     {
-        if (!IsPaused) { return; }
+        public bool IsPaused { get; }
+        public async ValueTask WaitResumeAsync(CancellationToken token = default)
+        {
+            if (!IsPaused) { return; }
 
-        while (IsPaused) { await Awaitable.NextFrameAsync(token); }
+            while (IsPaused) { await Awaitable.NextFrameAsync(token); }
+        }
     }
 }
-
