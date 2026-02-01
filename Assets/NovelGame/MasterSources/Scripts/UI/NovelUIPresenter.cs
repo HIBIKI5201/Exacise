@@ -32,5 +32,10 @@ namespace NovelGame.Master.Scripts.UI
             _root = _document.rootVisualElement;
             _root.Add(_skipWindowPresenter.CreateView());
         }
+
+        private void OnDestroy()
+        {
+            _vm = null;
+        }
     }
 }
