@@ -20,6 +20,9 @@ namespace NovelGame.Master.Scripts.UI
             _list = root.Q<ListView>(_listViewName);
             ListInit(_list);
 
+            _closeButton = root.Q<Button>(_closeButtonName);
+            _closeButton.clicked += () => ChangeVisibility(Visibility.Hidden);
+
             ChangeVisibility(Visibility.Hidden);
 
             return root;
@@ -37,10 +40,13 @@ namespace NovelGame.Master.Scripts.UI
 
         [SerializeField]
         private string _listViewName = "list-view";
+        [SerializeField]
+        private string _closeButtonName = "close";
 
         private ScenarioLogWindowViewModel _vm;
         private VisualElement _root;
         private ListView _list;
+        private Button _closeButton;
 
         private void RootInit(VisualElement root)
         {
@@ -63,6 +69,14 @@ namespace NovelGame.Master.Scripts.UI
             };
 
             list.Rebuild();
+
+            _vm.OnMoveNext += n => Refresh();
+        }
+
+        private void Refresh()
+        {
+            _list.RefreshItems();
+            _list.ScrollToItem(_vm.DisplayedNodes.Count - 1);
         }
     }
 }
