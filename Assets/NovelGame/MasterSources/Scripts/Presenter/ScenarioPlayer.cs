@@ -76,7 +76,7 @@ namespace NovelGame.Master.Scripts.Presenter
         {
             ScenarioNode node = _asset[_currentNodeIndex];
 
-            ValueTask textTask = _messageWindowViewModel.SetTextAsync(node.Name, node.Text);
+            ValueTask textTask = _messageWindowViewModel.SetTextAsync(node.Name, node.Text, token);
             _tasks.Add(textTask);
 
             foreach (IScenarioAction action in node.ScenarioActions)
