@@ -1,5 +1,6 @@
 using NovelGame.Master.Scripts.UseCase;
 using NovelGame.Master.Scripts.Utility;
+using System;
 using UnityEngine;
 
 namespace NovelGame.Master.Scripts.Infra
@@ -7,23 +8,23 @@ namespace NovelGame.Master.Scripts.Infra
     /// <summary>
     ///     シナリオノードを表します。
     /// </summary>
+    [Serializable]
     public class ScenarioNode
     {
-
         public ScenarioNode(string text, string name,
             bool isWaitForInput,
-            IScenarioAction[] actionObjects)
+            IScenarioAction[] scenarioActions)
         {
             _text = text;
             _name = name;
             _isWaitForInput = isWaitForInput;
-            _actionObject = actionObjects;
+            _scenarioActions = scenarioActions;
         }
 
         public string Name => _name;
         public string Text => _text;
         public bool IsWaitForInput => _isWaitForInput;
-        public IScenarioAction[] ActionObject => _actionObject;
+        public IScenarioAction[] ScenarioActions => _scenarioActions;
 
         [SerializeField]
         private string _name = string.Empty;
@@ -32,6 +33,6 @@ namespace NovelGame.Master.Scripts.Infra
         [SerializeField]
         private bool _isWaitForInput = true;
         [SerializeReference, SubclassSelector]
-        private IScenarioAction[] _actionObject = null;
+        private IScenarioAction[] _scenarioActions = null;
     }
 }
