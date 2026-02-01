@@ -3,6 +3,7 @@ using NovelGame.Master.Scripts.UseCase;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
@@ -31,11 +32,13 @@ namespace NovelGame.Master.Scripts.Editor
                 }
 
                 Span<string> actions = new(elements, 3, elements.Length - 3);
-                IScenarioAction[] actiondata = new IScenarioAction[actions.Length];
+                List<IScenarioAction> actiondata = new(actions.Length);
                 for (int i = 0; i < actions.Length; i++)
                 {
                     if (string.IsNullOrEmpty(actions[i])) { continue; }
-                    actiondata[i] = ScenarioActionConverter.ActionConvert(actions[i]);
+
+                    IScenarioAction action = ScenarioActionConverter.ActionConvert(actions[i]);
+                    if (action != null) { actiondata.Add(action); }
                 }
 
                 if (!bool.TryParse(elements[2], out bool isWaitForInput))
@@ -44,7 +47,7 @@ namespace NovelGame.Master.Scripts.Editor
                     Debug.LogWarning($"bool値のパースに失敗したためデフォルト値(true)を使用します: Line {lineNumber}");
                 }
 
-                ScenarioNode textData = new(elements[1], elements[0], isWaitForInput, actiondata);
+                ScenarioNode textData = new(elements[1], elements[0], isWaitForInput, actiondata.ToArray());
                 textDatas.Add(textData);
             }
 
