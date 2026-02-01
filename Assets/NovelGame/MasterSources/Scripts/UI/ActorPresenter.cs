@@ -38,6 +38,7 @@ namespace NovelGame.Master.Scripts.UI
                     if (ph != null) { await ph.WaitResumeAsync(token); }
                 }
             }
+            catch(OperationCanceledException) { }
             finally
             {
                 // 最後にアルファ値を1に設定。
@@ -67,6 +68,7 @@ namespace NovelGame.Master.Scripts.UI
                     if (ph != null) { await ph.WaitResumeAsync(token); }
                 }
             }
+            catch(OperationCanceledException) { }
             finally
             {
                 // 最後にアルファ値を0に設定。
