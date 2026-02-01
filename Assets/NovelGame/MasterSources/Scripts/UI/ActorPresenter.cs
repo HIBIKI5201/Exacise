@@ -24,7 +24,7 @@ namespace NovelGame.Master.Scripts.UI
 
             try
             {
-                await Tween.Tweening(0, n => ChangeAllColorAlpha(n), 1,
+                await Tween.Tweening(0f, n => ChangeAllColorAlpha(n), 1f,
                     d: duration,
                     ph: ph,
                     token: token);
@@ -47,7 +47,7 @@ namespace NovelGame.Master.Scripts.UI
 
             try
             {
-                await Tween.Tweening(1, n => ChangeAllColorAlpha(n), 0,
+                await Tween.Tweening(1f, n => ChangeAllColorAlpha(n), 0f,
                     d: duration,
                     ph: ph,
                     token: token);
