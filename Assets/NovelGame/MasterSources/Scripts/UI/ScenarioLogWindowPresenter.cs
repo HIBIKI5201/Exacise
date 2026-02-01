@@ -8,15 +8,26 @@ namespace NovelGame.Master.Scripts.UI
     [Serializable]
     public class ScenarioLogWindowPresenter
     {
+        public VisualElement Root => _root;
+
         public VisualElement CreateView(ScenarioLogWindowViewModel vm)
         {
+            _vm = vm;
             VisualElement root = _windowTreeAsset.Instantiate();
+            _root = root;
+            RootInit(root);
+
             _list = root.Q<ListView>(_listViewName);
             ListInit(_list);
 
-            _vm = vm;
+            ChangeVisibility(Visibility.Hidden);
 
             return root;
+        }
+
+        public void ChangeVisibility(Visibility visibility)
+        {
+            _root.style.visibility = visibility;
         }
 
         [SerializeField]
@@ -28,7 +39,18 @@ namespace NovelGame.Master.Scripts.UI
         private string _listViewName = "list-view";
 
         private ScenarioLogWindowViewModel _vm;
+        private VisualElement _root;
         private ListView _list;
+
+        private void RootInit(VisualElement root)
+        {
+            root.pickingMode = PickingMode.Ignore;
+
+            IStyle style = root.style;
+            style.position = Position.Absolute;
+            style.width = Length.Percent(100);
+            style.height = Length.Percent(100);
+        }
 
         private void ListInit(ListView list)
         {
