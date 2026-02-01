@@ -57,8 +57,8 @@ namespace NovelGame.Master.Scripts.Runner
             MessageWindowViewModel messageWindowVM = ScriptableObject.CreateInstance<MessageWindowViewModel>();
             ScenarioLogWindowViewModel scenarioLogVM = ScriptableObject.CreateInstance<ScenarioLogWindowViewModel>();
 
-            ActorRepository actorRepository = new(_actorDataBase);
             messageWindowVM.Init(_novelSetting, _novelUIPresenter.PauseHandler);
+            ActorRepository actorRepository = new(_actorDataBase);
 
             ActionRepository repo = new ActionRepository(
                 novelUIPresenter: _novelUIPresenter,
@@ -72,9 +72,13 @@ namespace NovelGame.Master.Scripts.Runner
                 messageWindowViewModel: messageWindowVM,
                 ph: _novelUIPresenter.PauseHandler);
 
+            scenarioLogVM.Bind(_scenarioAsset, _player);
+
             _novelUIPresenter.CreateSkipWindow();
             _novelUIPresenter.CreateMessageWindow(messageWindowVM);
             _novelUIPresenter.CreateScenarioLogWindow(scenarioLogVM);
+
+            _novelUIPresenter.Sort();
 
             _novelUIPresenter.BindSkipButtonClickedEvent(NextNode);
 
