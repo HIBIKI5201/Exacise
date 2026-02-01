@@ -11,13 +11,23 @@ namespace NovelGame.Master.Scripts.Infra
         menuName = InfraContraint.ASSET_PATH + nameof(ActionRepository))]
     public class ActionRepository
     {
-        public ActionRepository()
+        public ActionRepository(
+            NovelUIPresenter novelUIPresenter,
+            BackGroundPresenter backGroundPresenter,
+            ActorAssetDataBase actorDataBase
+            )
         {
-
+            _novelUIPresenter = novelUIPresenter;
+            _bgPresenter = backGroundPresenter;
+            _actorDataBase = actorDataBase;
         }
 
+        public NovelUIPresenter NovelUIPresenter => _novelUIPresenter;
         public BackGroundPresenter BackGroundPresenter => _bgPresenter;
+        public ActorAssetDataBase ActorDataBase => _actorDataBase;
 
+        private readonly NovelUIPresenter _novelUIPresenter;
         private readonly BackGroundPresenter _bgPresenter;
+        private readonly ActorAssetDataBase _actorDataBase;
     }
 }
