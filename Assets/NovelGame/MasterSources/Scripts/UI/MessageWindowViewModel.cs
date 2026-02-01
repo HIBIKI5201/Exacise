@@ -1,3 +1,4 @@
+using NovelGame.Master.Scripts.Infra;
 using NovelGame.Master.Scripts.Utility;
 using System;
 using System.Threading;
@@ -8,17 +9,19 @@ namespace NovelGame.Master.Scripts.UI
 {
     public class MessageWindowViewModel : ScriptableObject
     {
-        public void Init(IPauseHandler ph)
+        public void Init(NovelSetting setting, IPauseHandler ph)
         {
+            _setting = setting;
             _ph = ph;
         }
 
-        public ValueTask SetTextAsync(string characterName, string messageText)
+        public ValueTask SetTextAsync(string characterName, string messageText, CancellationToken token = default)
         {
             _characterName = characterName;
-            return TextCaptionAsync(messageText);
+            return TextCaptionAsync(messageText, token);
         }
 
+        private NovelSetting _setting;
         private IPauseHandler _ph;
 
         [SerializeField] private string _characterName = string.Empty;
@@ -30,7 +33,7 @@ namespace NovelGame.Master.Scripts.UI
             float showLength = 0;
             while (showLength < text.Length)
             {
-                showLength += 1 * Time.deltaTime;
+                showLength += _setting.TextSpeed * Time.deltaTime;
 
                 // 次に表示する文字数を計算。
                 int nextShowLength = Mathf.Min(
@@ -38,6 +41,9 @@ namespace NovelGame.Master.Scripts.UI
                         text.Length); // 最大文字数。
 
                 _messageText = text[..nextShowLength];
+
+                // 全文字が表示されていたら終了。
+                if (text.Length == showLength) { return; }
 
                 try // 1フレーム待機。
                 {
@@ -48,13 +54,11 @@ namespace NovelGame.Master.Scripts.UI
                 }
                 catch (OperationCanceledException)
                 {
-                    // 文字送りがスキップされた場合にはループを抜ける。
-                    break;
+                    // 文字送りがスキップされた場合には全表示して終了する。
+                    _messageText = text;
+                    return;
                 }
             }
-
-            // 最後に全文字を表示しておく。
-            _messageText = text;
         }
     }
 }
