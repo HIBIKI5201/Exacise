@@ -84,10 +84,21 @@ namespace NovelGame.Master.Scripts.UI
             AnimatorStateInfo stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
             float animationLength = stateInfo.length;
 
+            float elapsed = 0;
             try
             {
-                await Awaitable.WaitForSecondsAsync(animationLength, token);
-                if (ph != null) { await ph.WaitResumeAsync(token); }
+                while (elapsed <= animationLength)
+                {
+                    await Awaitable.NextFrameAsync(token);
+                    elapsed += Time.deltaTime;
+
+                    if (ph != null && ph.IsPaused)
+                    {
+                        _animator.speed = 0;
+                        await ph.WaitResumeAsync(token);
+                        _animator.speed = 1;
+                    }
+                }
             }
             catch (OperationCanceledException)
             {
