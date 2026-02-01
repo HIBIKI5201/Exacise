@@ -72,6 +72,7 @@ namespace NovelGame.Master.Scripts.Runner
 
             _novelUIPresenter.BindSkipButtonClickedEvent(NextNode);
 
+            NextNode();
         }
 
         private async void NextNode()
