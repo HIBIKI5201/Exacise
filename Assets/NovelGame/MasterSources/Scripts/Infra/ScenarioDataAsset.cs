@@ -11,7 +11,7 @@ namespace NovelGame.Master.Scripts.Infra
     public class ScenarioDataAsset : ScriptableObject
     {
         public ScenarioNode this[int index] => _scenarioNodes[index];
-
+        public int Length => _scenarioNodes.Length;
         public void SetScenarioNodes(ScenarioNode[] scenarioNodes)
         {
             _scenarioNodes = scenarioNodes;
