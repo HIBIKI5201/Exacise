@@ -8,14 +8,14 @@ namespace NovelGame.Scripts
 {
     public class NovelDataGenerator : EditorWindow
     {
-        [MenuItem("Tools/" + nameof(NovelDataGenerator))]
+        [MenuItem("Tools/NovelGame/" + nameof(NovelDataGenerator))]
         public static void Window()
         {
             NovelDataGenerator window = (NovelDataGenerator)GetWindow(typeof(NovelDataGenerator));
             window.Show();
         }
 
-        private const string DEFALUT_EXPORT_PATH = "Assets/NovelGame/AssetResource/";
+        private const string DEFALUT_EXPORT_PATH = "Assets/NovelGame/AssetResource/NovelData/";
 
         private string _sheetName;
         private string _exportPath = DEFALUT_EXPORT_PATH;

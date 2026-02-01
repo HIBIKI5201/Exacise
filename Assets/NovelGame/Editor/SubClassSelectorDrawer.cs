@@ -5,7 +5,7 @@ using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
-namespace NovelGame.Scripts
+namespace NovelGame.Master.Scripts.Utility
 {
     /// <summary>
     ///     サブクラスセレクターのカスタムプロパティドロワー。
