@@ -1,21 +1,22 @@
+using NovelGame.Master.Scripts.Infra;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace NovelGame.Scripts.Editor
+namespace NovelGame.Master.Scripts.Editor
 {
-    public class NovelDataGenerator : EditorWindow
+    public class ScenarioDataGenerator : EditorWindow
     {
-        [MenuItem("Tools/NovelGame/" + nameof(NovelDataGenerator))]
+        [MenuItem("Tools/NovelGame/" + nameof(ScenarioDataGenerator))]
         public static void Window()
         {
-            NovelDataGenerator window = (NovelDataGenerator)GetWindow(typeof(NovelDataGenerator));
+            ScenarioDataGenerator window = (ScenarioDataGenerator)GetWindow(typeof(ScenarioDataGenerator));
             window.Show();
         }
 
-        private const string DEFALUT_EXPORT_PATH = "Assets/NovelGame/AssetResource/NovelData/";
+        private const string DEFALUT_EXPORT_PATH = "Assets/NovelGame/AssetResource/" + nameof(ScenarioDataAsset) + "/";
 
         private string _sheetName;
         private string _exportPath = DEFALUT_EXPORT_PATH;
@@ -40,7 +41,7 @@ namespace NovelGame.Scripts.Editor
             string csv = await GetCSV();
             _lastCSV = csv;
 
-            NovelData data = NovelDataConverter.Execute(csv);
+            ScenarioDataAsset data = ScenarioDataConverter.Execute(csv);
             Save(data);
 
             Repaint();
@@ -67,7 +68,7 @@ namespace NovelGame.Scripts.Editor
             return request.downloadHandler.text;
         }
 
-        private void Save(NovelData asset)
+        private void Save(ScenarioDataAsset asset)
         {
             if (asset == null)
             {
@@ -90,7 +91,7 @@ namespace NovelGame.Scripts.Editor
             string fullPath = System.IO.Path.Combine(_exportPath, $"{_sheetName}.asset");
 
             // 既存のアセットを削除
-            if (AssetDatabase.LoadAssetAtPath<NovelData>(fullPath) != null)
+            if (AssetDatabase.LoadAssetAtPath<ScenarioDataAsset>(fullPath) != null)
             {
                 AssetDatabase.DeleteAsset(fullPath);
             }
