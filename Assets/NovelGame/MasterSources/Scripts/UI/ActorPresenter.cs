@@ -24,19 +24,10 @@ namespace NovelGame.Master.Scripts.UI
 
             try
             {
-                // 経過時間に基づいてアルファ値を計算。
-                float elapsed = 0f;
-                while (elapsed < duration)
-                {
-                    float alpha = Mathf.Clamp01(elapsed / duration);
-
-                    Debug.Log($"FadeIn Alpha: {alpha}\n{elapsed}/{duration}");
-                    ChangeAllColorAlpha(alpha);
-                    elapsed += Time.deltaTime;
-
-                    await Awaitable.NextFrameAsync(token);
-                    if (ph != null) { await ph.WaitResumeAsync(token); }
-                }
+                await Tween.Tweening(0, n => ChangeAllColorAlpha(n), 1,
+                    d: duration,
+                    ph: ph,
+                    token: token);
             }
             catch(OperationCanceledException) { }
             finally
@@ -56,19 +47,12 @@ namespace NovelGame.Master.Scripts.UI
 
             try
             {
-                // 経過時間に基づいてアルファ値を計算。
-                float elapsed = 0f;
-                while (elapsed < duration)
-                {
-                    float alpha = 1f - Mathf.Clamp01(elapsed / duration);
-                    ChangeAllColorAlpha(alpha);
-                    elapsed += Time.deltaTime;
-
-                    await Awaitable.NextFrameAsync(token);
-                    if (ph != null) { await ph.WaitResumeAsync(token); }
-                }
+                await Tween.Tweening(1, n => ChangeAllColorAlpha(n), 0,
+                    d: duration,
+                    ph: ph,
+                    token: token);
             }
-            catch(OperationCanceledException) { }
+            catch (OperationCanceledException) { }
             finally
             {
                 // 最後にアルファ値を0に設定。
