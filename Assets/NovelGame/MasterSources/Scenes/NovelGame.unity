@@ -265,8 +265,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1007829299}
-  - component: {fileID: 1007829298}
   - component: {fileID: 1007829300}
+  - component: {fileID: 1007829298}
   m_Layer: 5
   m_Name: NovelUI
   m_TagString: Untagged
@@ -586,8 +586,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 907ced38028bddc4a8aeae5c94b4854f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NovelGame.Master.Scripts.Runner.Runner
-  _novelUIPresenter: {fileID: 0}
-  _bgPresenter: {fileID: 0}
+  _scenarioAsset: {fileID: 11400000, guid: 47c7c59e28caf7645b74bdccdd76dc62, type: 2}
+  _actorDataBase: {fileID: 11400000, guid: 9664525f6f751d9469b630384d272c67, type: 2}
+  _novelUIPresenter: {fileID: 1007829300}
+  _bgPresenter: {fileID: 2057275220}
 --- !u!4 &1684561402
 Transform:
   m_ObjectHideFlags: 0
@@ -612,10 +614,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2057275224}
+  - component: {fileID: 2057275220}
   - component: {fileID: 2057275223}
   - component: {fileID: 2057275222}
   - component: {fileID: 2057275221}
-  - component: {fileID: 2057275220}
   m_Layer: 5
   m_Name: BackGround
   m_TagString: Untagged
