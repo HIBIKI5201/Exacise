@@ -7,10 +7,10 @@ using UnityEngine;
 
 namespace NovelGame.Master
 {
-    public class ChangeBackGround : IScenarioAction
+    public class BackGroundChange : IScenarioAction
     {
-        public ChangeBackGround() { }
-        public ChangeBackGround(string imageName)
+        public BackGroundChange() { }
+        public BackGroundChange(string imageName)
         {
             _imageName = imageName;
         }
