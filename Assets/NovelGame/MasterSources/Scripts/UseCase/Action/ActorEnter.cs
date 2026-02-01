@@ -8,6 +8,9 @@ using UnityEngine;
 
 namespace NovelGame.Master
 {
+    /// <summary>
+    ///     アクターを登場させる。
+    /// </summary>
     public class ActorEnter : IScenarioAction
     {
         public ActorEnter()
@@ -26,8 +29,8 @@ namespace NovelGame.Master
 
         public ValueTask ExecuteAsync(ActionRepository repository, IPauseHandler pauseHandler, CancellationToken token = default)
         {
-            ActorPresenter actor = repository.ActorDataBase[_actorName];
-            actor = Object.Instantiate(actor, _position, Quaternion.identity);
+            ActorPresenter actor = repository.ActorRepository.GetActorPresenter(_actorName);
+            actor.transform.position = _position;
 
             return actor.FadeIn(_duration, pauseHandler, token);
         }
