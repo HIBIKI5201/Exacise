@@ -1,3 +1,4 @@
+using NovelGame.Master.Scripts.Utility;
 using UnityEngine;
 
 namespace NovelGame.Master.Scripts.Infra
@@ -6,7 +7,7 @@ namespace NovelGame.Master.Scripts.Infra
     ///     背景アセットを管理します。
     /// </summary>
     [CreateAssetMenu(fileName = nameof(BackGroundAsset), 
-        menuName = "NovelGame/Master/" + nameof(BackGroundAsset))]
+        menuName = InfraContraint.ASSET_PATH + nameof(BackGroundAsset))]
     public sealed class BackGroundAsset : ScriptableObject
     {
         public string BackGroundName => name;

@@ -1,3 +1,4 @@
+using NovelGame.Master.Scripts.Utility;
 using UnityEngine;
 
 namespace NovelGame.Master.Scripts.Infra
@@ -6,7 +7,7 @@ namespace NovelGame.Master.Scripts.Infra
     /// ノベルゲームのデータアセットを表します。
     /// </summary>
     [CreateAssetMenu(fileName = nameof(ScenarioDataAsset), 
-        menuName = "NovelGame/Master" + nameof(ScenarioDataAsset))]
+        menuName = InfraContraint.ASSET_PATH + nameof(ScenarioDataAsset))]
     public class ScenarioDataAsset : ScriptableObject
     {
 

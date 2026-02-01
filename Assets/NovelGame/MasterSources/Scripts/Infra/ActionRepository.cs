@@ -1,4 +1,5 @@
 using NovelGame.Master.Scripts.UI;
+using NovelGame.Master.Scripts.Utility;
 using UnityEngine;
 
 namespace NovelGame.Master.Scripts.Infra
@@ -7,7 +8,7 @@ namespace NovelGame.Master.Scripts.Infra
     ///     アクションに使用するPresenterを管理します。
     /// </summary>
     [CreateAssetMenu(fileName = nameof(ActionRepository),
-        menuName = "NovelGame/Master/" + nameof(ActionRepository))]
+        menuName = InfraContraint.ASSET_PATH + nameof(ActionRepository))]
     public class ActionRepository
     {
         public ActionRepository()
