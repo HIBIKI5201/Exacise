@@ -1,41 +1,44 @@
-using Codice.Client.BaseCommands;
 using NovelGame.Master.Scripts.Infra;
+using NovelGame.Master.Scripts.UI;
 using NovelGame.Master.Scripts.UseCase;
 using NovelGame.Master.Scripts.Utility;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using UnityEngine;
 
 namespace NovelGame.Master.Scripts.Presenter
 {
     public class ScenarioPlayer
     {
-        public ScenarioPlayer(ScenarioDataAsset asset, ActionRepository repo, IPauseHandler pause)
+        public ScenarioPlayer(ScenarioDataAsset asset,
+            ActionRepository repo,
+            MessageWindowViewModel messageWindowViewModel,
+            IPauseHandler ph)
         {
             _asset = asset;
             _repo = repo;
-            _pause = pause;
+            _messageWindowViewModel = messageWindowViewModel;
+            _ph = ph;
         }
 
         public int CurrentIndex => _currentNodeIndex;
 
-        public ValueTask MoveNextAsync()
+        public ValueTask<bool> MoveNextAsync()
         {
+            if (TryCancel())
+            {
+                return new(true);
+            }
+
             _currentNodeIndex++;
             if (_currentNodeIndex >= _asset.Length)
             {
-                return default;
-            }
-
-            if (TryCancel())
-            {
-                return default;
+                return new(false);
             }
 
             _cts = new CancellationTokenSource();
-            ValueTask task = NextNodeAsync(_cts.Token);
+            ValueTask<bool> task = NextNodeAsync(_cts.Token);
             _task = task.AsTask();
 
             return task;
@@ -61,26 +64,37 @@ namespace NovelGame.Master.Scripts.Presenter
 
         private readonly ScenarioDataAsset _asset;
         private readonly ActionRepository _repo;
-        private readonly IPauseHandler _pause;
+        private readonly MessageWindowViewModel _messageWindowViewModel;
+        private readonly IPauseHandler _ph;
 
         private CancellationTokenSource _cts;
         private Task _task;
         private int _currentNodeIndex = -1;
+        private List<Task> _tasks;
 
-        private async ValueTask NextNodeAsync(CancellationToken token = default)
+        private async ValueTask<bool> NextNodeAsync(CancellationToken token = default)
         {
             ScenarioNode node = _asset[_currentNodeIndex];
 
+            ValueTask textTask = _messageWindowViewModel.SetTextAsync(node.Name, node.Text);
+            _tasks.Add(textTask.AsTask());
+
+            foreach (IScenarioAction action in node.ScenarioActions)
+            {
+                ValueTask task = action.ExecuteAsync(_repo, _ph, token);
+                _tasks.Add(task.AsTask());
+            }
+
             try
             {
-                foreach(IScenarioAction action in node.ScenarioActions)
-                {
-                    await action.ExecuteAsync(_repo, _pause, token);
-                }
+                await Task.WhenAll(_tasks);
             }
-            catch(OperationCanceledException) { return; }
+            finally
+            {
+                _tasks.Clear();
+            }
 
-            return;
+            return true;
         }
     }
 }
