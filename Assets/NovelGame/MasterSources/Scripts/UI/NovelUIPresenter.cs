@@ -15,15 +15,28 @@ namespace NovelGame.Master.Scripts.UI
             _messageWindowPresenter.OnButtonClicked += action;
         }
 
-        public void BindMessageWindowViewModel(MessageWindowViewModel vm)
+        public void CreateMessageWindow(MessageWindowViewModel vm)
         {
             _root.Add(_messageWindowPresenter.CreateView(vm));
         }
+
+        public void CreateSkipWindow()
+        {
+            _root.Add(_skipWindowPresenter.CreateView());
+        }
+
+        public void CreateScenarioLogWindow(ScenarioLogWindowViewModel vm)
+        {
+            _root.Add(_scenarioLogWindowPresenter.CreateView(vm));
+        }
+
 
         [SerializeField]
         private MessageWindowPresenter _messageWindowPresenter;
         [SerializeField]
         private SkipWindowPresenter _skipWindowPresenter;
+        [SerializeField]
+        private ScenarioLogWindowPresenter _scenarioLogWindowPresenter;
 
         private UIDocument _document;
         private VisualElement _root;
@@ -32,8 +45,6 @@ namespace NovelGame.Master.Scripts.UI
         {
             _document = GetComponent<UIDocument>();
             _root = _document.rootVisualElement;
-
-            _root.Add(_skipWindowPresenter.CreateView());
         }
     }
 }
