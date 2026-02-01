@@ -31,12 +31,6 @@ namespace NovelGame.Master.Scripts.Presenter
                 return new(true);
             }
 
-            _currentNodeIndex++;
-            if (_currentNodeIndex >= _asset.Length)
-            {
-                return new(false);
-            }
-
             _cts = new CancellationTokenSource();
             ValueTask<bool> task = NextNodeAsync(_cts.Token);
             _task = task.AsTask();
@@ -74,28 +68,41 @@ namespace NovelGame.Master.Scripts.Presenter
 
         private async ValueTask<bool> NextNodeAsync(CancellationToken token = default)
         {
-            ScenarioNode node = _asset[_currentNodeIndex];
+            ScenarioNode node = null;
 
-            ValueTask textTask = _messageWindowViewModel.SetTextAsync(node.Name, node.Text, token);
-            _tasks.Add(textTask);
-
-            foreach (IScenarioAction action in node.ScenarioActions)
+            do
             {
-                ValueTask task = action.ExecuteAsync(_repo, _ph, token);
-                _tasks.Add(task);
-            }
+                _currentNodeIndex++;
 
-            try
-            {
-                foreach (ValueTask task in _tasks)
+                if (_asset.Length <= _currentNodeIndex)
                 {
-                    await task;
+                    return false;
+                }
+
+                node = _asset[_currentNodeIndex];
+
+                ValueTask textTask = _messageWindowViewModel.SetTextAsync(node.Name, node.Text, token);
+                _tasks.Add(textTask);
+
+                foreach (IScenarioAction action in node.ScenarioActions)
+                {
+                    ValueTask task = action.ExecuteAsync(_repo, _ph, token);
+                    _tasks.Add(task);
+                }
+
+                try
+                {
+                    foreach (ValueTask task in _tasks)
+                    {
+                        await task;
+                    }
+                }
+                finally
+                {
+                    _tasks.Clear();
                 }
             }
-            finally
-            {
-                _tasks.Clear();
-            }
+            while (node != null && !node.IsWaitForInput);
 
             return true;
         }
