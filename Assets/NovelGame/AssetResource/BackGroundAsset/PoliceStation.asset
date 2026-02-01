@@ -10,6 +10,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 18cea99f5de673c47aeaa0e545f9fa48, type: 3}
-  m_Name: BackGroundAsset
-  m_EditorClassIdentifier: Assembly-CSharp::NovelGame.Master.Scripts.Infra.BackGroundAsset
-  _backgroundSprite: {fileID: 0}
+  m_Name: PoliceStation
+  m_EditorClassIdentifier: NovelGame::NovelGame.Master.Scripts.Infra.BackGroundAsset
+  _backgroundSprite: {fileID: 4671972099002390761, guid: 02d96f9f17c8deb4d93a80baea15b8f1, type: 3}
