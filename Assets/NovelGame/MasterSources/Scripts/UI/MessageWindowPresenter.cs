@@ -13,7 +13,7 @@ namespace NovelGame.Master.Scripts.UI
         public VisualElement CreateView(MessageWindowViewModel vm)
         {
             _root = _visualTreeAsset.Instantiate();
-            RootStyleInit(_root.style);
+            RootStyleInit(_root);
             _root.dataSource = vm;
 
             _clickButton = _root.Q<Button>(ClickButtonName);
@@ -31,8 +31,11 @@ namespace NovelGame.Master.Scripts.UI
         private VisualElement _root;
         private Button _clickButton;
 
-        private void RootStyleInit(IStyle style)
+        private void RootStyleInit(VisualElement root)
         {
+            _root.pickingMode = PickingMode.Ignore;
+
+            IStyle style = root.style;
             style.position = Position.Absolute;
             style.flexGrow = 1;
             style.width = Length.Percent(100);
