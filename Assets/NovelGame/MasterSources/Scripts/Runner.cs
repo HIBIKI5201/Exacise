@@ -17,12 +17,14 @@ namespace NovelGame.Master.Scripts.Runner
         [SerializeField]
         private BackGroundPresenter _bgPresenter;
 
+        private ScenarioPlayer _player;
+
         private void Start()
         {
-            if (_scenarioAsset == null) 
+            if (_scenarioAsset == null)
             {
                 Debug.LogError("ScenarioDataAssetが設定されていません。");
-                return; 
+                return;
             }
             if (_actorDataBase == null)
             {
@@ -36,12 +38,31 @@ namespace NovelGame.Master.Scripts.Runner
             { _bgPresenter = FindAnyObjectByType<BackGroundPresenter>(); }
 
             MessageWindowViewModel messageWindowVM = ScriptableObject.CreateInstance<MessageWindowViewModel>();
+            messageWindowVM.Init(_novelUIPresenter.PauseHandler);
             _novelUIPresenter.BindMessageWindowViewModel(messageWindowVM);
 
-            ScenarioPlayer scenarioPlayer = new ScenarioPlayer(
+            _player = new ScenarioPlayer(
                 asset: _scenarioAsset,
                 repo: new ActionRepository(_novelUIPresenter, _bgPresenter, _actorDataBase),
-                pause: null);
+                messageWindowViewModel: messageWindowVM,
+                ph: _novelUIPresenter.PauseHandler);
+
+            _novelUIPresenter.BindSkipButtonClickedEvent(NextNode);
+
+        }
+
+        private async void NextNode()
+        {
+            bool result = await _player.MoveNextAsync();
+            if (!result)
+            {
+                NovelEnd();
+            }
+        }
+
+        private void NovelEnd()
+        {
+
         }
     }
 }
