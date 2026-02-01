@@ -17,22 +17,63 @@ MonoBehaviour:
     _text: 
     _isWaitForInput: 0
     _scenarioActions:
-    - rid: 6921725895077003785
-  - _name: a
-    _text: aaa
+    - rid: 6921725898382901387
+  - _name: "\u30E6\u30CB\u30C6\u30A3\u3061\u3083\u3093"
+    _text: "\u30B3\u30CF\u30AF\u767B\u5834"
     _isWaitForInput: 1
     _scenarioActions:
-    - rid: 6921725895077003799
+    - rid: 6921725898382901395
+  - _name: 
+    _text: "\u80CC\u666F\u5909\u5316"
+    _isWaitForInput: 1
+    _scenarioActions:
+    - rid: 6921725898382901396
+  - _name: "\u30E6\u30CB\u30C6\u30A3\u3061\u3083\u3093"
+    _text: "\u30B8\u30E3\u30F3\u30D7\uFF01\uFF01"
+    _isWaitForInput: 1
+    _scenarioActions:
+    - rid: 6921725898382901397
+  - _name: "\u30E6\u30CB\u30C6\u30A3\u3061\u3083\u3093"
+    _text: "\u3046\u3054\u304F"
+    _isWaitForInput: 1
+    _scenarioActions:
+    - rid: 6921725898382901386
+  - _name: "\u30E6\u30CB\u30C6\u30A3\u3061\u3083\u3093"
+    _text: "\u3055\u3088\u3046\u306A\u3089\uFF5E"
+    _isWaitForInput: 1
+    _scenarioActions:
+    - rid: 6921725898382901388
   references:
     version: 2
     RefIds:
-    - rid: 6921725895077003785
-      type: {class: ChangeBackGround, ns: NovelGame.Master, asm: NovelGame}
+    - rid: 6921725898382901386
+      type: {class: ActorMove, ns: NovelGame.Master.Scripts.UseCase, asm: NovelGame}
+      data:
+        _actorName: Kohaku
+        _toPosition: {x: 5, y: -1}
+        _duration: 0.5
+    - rid: 6921725898382901387
+      type: {class: BackGroundChange, ns: NovelGame.Master.Scripts.UseCase, asm: NovelGame}
       data:
         _imageName: City
-    - rid: 6921725895077003799
-      type: {class: ActorEnter, ns: NovelGame.Master, asm: NovelGame}
+    - rid: 6921725898382901388
+      type: {class: ActorExit, ns: NovelGame.Master.Scripts.UseCase, asm: NovelGame}
       data:
         _actorName: Kohaku
         _duration: 0.5
-        _position: {x: 0, y: 0}
+    - rid: 6921725898382901395
+      type: {class: ActorEnter, ns: NovelGame.Master.Scripts.UseCase, asm: NovelGame}
+      data:
+        _actorName: Kohaku
+        _duration: 0.5
+        _position: {x: -5, y: -1}
+    - rid: 6921725898382901396
+      type: {class: BackGroundCrossFade, ns: NovelGame.Master.Scripts.UseCase, asm: NovelGame}
+      data:
+        _imageName: PoliceStation
+        _duration: 0.5
+    - rid: 6921725898382901397
+      type: {class: ActorAnime, ns: NovelGame.Master.Scripts.UseCase, asm: NovelGame}
+      data:
+        _actorName: Kohaku
+        _clipName: Jump
