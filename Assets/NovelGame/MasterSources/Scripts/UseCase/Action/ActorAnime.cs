@@ -1,12 +1,11 @@
 using NovelGame.Master.Scripts.Infra;
 using NovelGame.Master.Scripts.UI;
-using NovelGame.Master.Scripts.UseCase;
 using NovelGame.Master.Scripts.Utility;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace NovelGame.Master
+namespace NovelGame.Master.Scripts.UseCase
 {
     public class ActorAnime : IScenarioAction
     {

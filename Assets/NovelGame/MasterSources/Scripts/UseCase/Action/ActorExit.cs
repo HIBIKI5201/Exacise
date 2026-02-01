@@ -1,19 +1,18 @@
 using NovelGame.Master.Scripts.Infra;
 using NovelGame.Master.Scripts.UI;
-using NovelGame.Master.Scripts.UseCase;
 using NovelGame.Master.Scripts.Utility;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.UIElements;
 
-namespace NovelGame.Master
+namespace NovelGame.Master.Scripts.UseCase
 {
     public class ActorExit : IScenarioAction
     {
         public ActorExit()
         {
-
+            _actorName = string.Empty;
+            _duration = 0.5f;
         }
 
         public async ValueTask ExecuteAsync(ActionRepository repository, IPauseHandler pauseHandler, CancellationToken token = default)

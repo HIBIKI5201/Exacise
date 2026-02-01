@@ -6,7 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace NovelGame.Master
+namespace NovelGame.Master.Scripts.UseCase
 {
     /// <summary>
     ///     アクターを登場させる。
