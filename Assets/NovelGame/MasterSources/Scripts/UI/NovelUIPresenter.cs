@@ -17,17 +17,31 @@ namespace NovelGame.Master.Scripts.UI
 
         public void CreateMessageWindow(MessageWindowViewModel vm)
         {
-            _root.Add(_messageWindowPresenter.CreateView(vm));
+            VisualElement visualElement = _messageWindowPresenter.CreateView(vm);
+            _root.Add(visualElement);
+
+            _buttonListPresenter.Bind(visualElement);
         }
 
         public void CreateSkipWindow()
         {
             _root.Add(_skipWindowPresenter.CreateView());
+            _buttonListPresenter.OnSkipButtonClicked +=
+                () => _skipWindowPresenter.ChangeVisibility(Visibility.Visible);
+        }
+
+        public void Sort()
+        {
+            _messageWindowPresenter.Root.BringToFront();
+            _scenarioLogWindowPresenter.Root.BringToFront();
+            _skipWindowPresenter.Root.BringToFront();
         }
 
         public void CreateScenarioLogWindow(ScenarioLogWindowViewModel vm)
         {
             _root.Add(_scenarioLogWindowPresenter.CreateView(vm));
+            _buttonListPresenter.OnLogButtonClicked +=
+                () => _scenarioLogWindowPresenter.ChangeVisibility(Visibility.Visible);
         }
 
 
@@ -37,6 +51,8 @@ namespace NovelGame.Master.Scripts.UI
         private SkipWindowPresenter _skipWindowPresenter;
         [SerializeField]
         private ScenarioLogWindowPresenter _scenarioLogWindowPresenter;
+        [SerializeField]
+        private ButtonListPresenter _buttonListPresenter;
 
         private UIDocument _document;
         private VisualElement _root;
