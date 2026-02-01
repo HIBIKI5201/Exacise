@@ -2,6 +2,7 @@ using NovelGame.Master.Scripts.Infra;
 using NovelGame.Master.Scripts.UI;
 using NovelGame.Master.Scripts.UseCase;
 using NovelGame.Master.Scripts.Utility;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -20,6 +21,8 @@ namespace NovelGame.Master.Scripts.Presenter
             _messageWindowViewModel = messageWindowViewModel;
             _ph = ph;
         }
+
+        public Action<int> OnMoveNext;
 
         public int CurrentIndex => _currentNodeIndex;
 
@@ -75,6 +78,8 @@ namespace NovelGame.Master.Scripts.Presenter
                 {
                     return false;
                 }
+
+                OnMoveNext?.Invoke(_currentNodeIndex);
 
                 node = _asset[_currentNodeIndex];
 
