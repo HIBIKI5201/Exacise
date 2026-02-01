@@ -1,11 +1,11 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <ui:VisualElement data-source-type="NovelGame.Master.Scripts.UI.ScenarioLogWindowViewModel+ScenarioNodeViewModel, NovelGame" style="border-top-left-radius: 52px; border-top-right-radius: 52px; border-bottom-right-radius: 52px; border-bottom-left-radius: 52px; background-color: rgb(255, 0, 0); width: 100%; height: 100px; flex-direction: row; align-items: center;">
-        <ui:Label text="Label" style="font-size: 50px; height: 100%; width: 15%; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; -unity-text-align: middle-center;">
+    <ui:VisualElement data-source-type="NovelGame.Master.Scripts.UI.ScenarioLogWindowViewModel+ScenarioNodeViewModel, NovelGame" style="border-top-left-radius: 52px; border-top-right-radius: 52px; border-bottom-right-radius: 52px; border-bottom-left-radius: 52px; background-color: rgb(38, 38, 38); width: 100%; height: 100px; flex-direction: row; align-items: center;">
+        <ui:Label text="ユニティちゃん" name="Label" style="font-size: 30px; height: 100%; width: 20%; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; -unity-text-align: middle-center; color: rgb(255, 255, 255);">
             <Bindings>
                 <ui:DataBinding property="text" data-source-path="Name" binding-mode="ToTarget"/>
             </Bindings>
         </ui:Label>
-        <ui:Label text="aaaaaaaaa&#10;aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" style="height: 100%; width: 85%; aspect-ratio: auto; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; white-space: normal; -unity-text-align: middle-left; font-size: 25px;">
+        <ui:Label text="aaaaaaaaaaaaaaaaaaaaaaaaaaaaa&#10;aaaaaaaaaaaa&#10;aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" style="height: 100%; width: 80%; aspect-ratio: auto; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; white-space: normal; -unity-text-align: middle-left; font-size: 25px; color: rgb(255, 255, 255);">
             <Bindings>
                 <ui:DataBinding property="text" data-source-path="Message" binding-mode="ToTarget"/>
             </Bindings>
