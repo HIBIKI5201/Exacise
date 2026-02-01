@@ -1,7 +1,6 @@
 using System;
-using UnityEngine.UIElements;
 using UnityEngine;
-using NovelGame.Master.Scripts.Utility;
+using UnityEngine.UIElements;
 
 namespace NovelGame.Master.Scripts.UI
 {
@@ -9,6 +8,8 @@ namespace NovelGame.Master.Scripts.UI
     public class MessageWindowPresenter
     {
         public event Action OnButtonClicked;
+
+        public VisualElement Root => _root;
 
         public VisualElement CreateView(MessageWindowViewModel vm)
         {
@@ -37,7 +38,6 @@ namespace NovelGame.Master.Scripts.UI
 
             IStyle style = root.style;
             style.position = Position.Absolute;
-            style.flexGrow = 1;
             style.width = Length.Percent(100);
             style.height = Length.Percent(100);
         }

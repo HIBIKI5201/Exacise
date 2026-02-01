@@ -1,13 +1,12 @@
 using NovelGame.Master.Scripts.Infra;
 using NovelGame.Master.Scripts.Presenter;
-using UnityEditor.MemoryProfiler;
 using UnityEngine;
 
 namespace NovelGame.Master.Scripts.UI
 {
     public class ScenarioLogWindowViewModel : ScriptableObject
     {
-        public void Bind(ScenarioDataAsset scenario, 
+        public void Bind(ScenarioDataAsset scenario,
             ScenarioPlayer player)
         {
             _scenario = scenario;
