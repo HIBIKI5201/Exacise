@@ -2,17 +2,17 @@
   <Project Path="SymphonyFrameWork.Enum.csproj" />
   <Project Path="AbeShootingGame.csproj" />
   <Project Path="PhotonExacise.csproj" />
-  <Project Path="Assembly-CSharp.csproj" />
   <Project Path="NovelGame.csproj" />
+  <Project Path="Assembly-CSharp.csproj" />
   <Project Path="ExaciseFPS.csproj" />
   <Project Path="Fusion.Unity.csproj" />
   <Project Path="Assembly-CSharp-firstpass.csproj" />
   <Project Path="GridDungeon.csproj" />
   <Project Path="2DUnitychanSamples.csproj" />
   <Project Path="Fusion.Unity.Editor.csproj" />
+  <Project Path="Assembly-CSharp-Editor.csproj" />
   <Project Path="EntityExacise.csproj" />
   <Project Path="URPWizard.csproj" />
-  <Project Path="Assembly-CSharp-Editor.csproj" />
   <Project Path="Unity.Fusion.CodeGen.csproj" />
   <Project Path="UITKExacise.csproj" />
 </Solution>
