@@ -1,5 +1,6 @@
 using NovelGame.Master.Scripts.Infra;
 using NovelGame.Master.Scripts.Presenter;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,6 +8,12 @@ namespace NovelGame.Master.Scripts.UI
 {
     public class ScenarioLogWindowViewModel : ScriptableObject
     {
+        public event Action<int> OnMoveNext
+        {
+            add => _player.OnMoveNext += value;
+            remove => _player.OnMoveNext -= value;
+        }
+
         public List<ScenarioNodeViewModel> DisplayedNodes => _displayedNodes;
         public ScenarioNodeViewModel this[int index] => _displayedNodes[index];
 
@@ -28,7 +35,7 @@ namespace NovelGame.Master.Scripts.UI
 
         public void UpdateDisplayedNodes(int currentIndex)
         {
-            for (int i = _displayedNodes.Count; i < currentIndex; i++)
+            for (int i = _displayedNodes.Count; i <= currentIndex; i++)
             {
                 _displayedNodes.Add(_allNodes[i]);
             }
