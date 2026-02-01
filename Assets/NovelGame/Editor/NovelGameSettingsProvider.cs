@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace NovelGame.Scripts
+namespace NovelGame.Scripts.Editor
 {
     public class NovelGameSettingsProvider : SettingsProvider
     {

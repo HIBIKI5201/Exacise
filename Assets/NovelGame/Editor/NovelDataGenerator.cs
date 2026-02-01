@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace NovelGame.Scripts
+namespace NovelGame.Scripts.Editor
 {
     public class NovelDataGenerator : EditorWindow
     {
