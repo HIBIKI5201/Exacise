@@ -1,3 +1,4 @@
+using NovelGame.Master.Scripts.Utility;
 using System;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -6,9 +7,10 @@ using static NovelGame.Master.Scripts.UI.ScenarioLogWindowViewModel;
 namespace NovelGame.Master.Scripts.UI
 {
     [Serializable]
-    public class ScenarioLogWindowPresenter
+    public class ScenarioLogWindowPresenter : IPauseHandler
     {
         public VisualElement Root => _root;
+        public bool IsPaused => _isPaused;
 
         public VisualElement CreateView(ScenarioLogWindowViewModel vm)
         {
@@ -31,6 +33,7 @@ namespace NovelGame.Master.Scripts.UI
         public void ChangeVisibility(Visibility visibility)
         {
             _root.style.visibility = visibility;
+            _isPaused = visibility == Visibility.Visible;
         }
 
         [SerializeField]
@@ -47,6 +50,8 @@ namespace NovelGame.Master.Scripts.UI
         private VisualElement _root;
         private ListView _list;
         private Button _closeButton;
+
+        private bool _isPaused;
 
         private void RootInit(VisualElement root)
         {
