@@ -24,14 +24,32 @@ namespace NovelGame.Master.Scripts.Editor
             string command = match.Groups[1].Value;
 
             // 引数部分がマッチした場合のみ、カンマで分割する
-            string[] args = match.Groups.Count > 2 && !string.IsNullOrEmpty(match.Groups[2].Value)
+            ScenarioArguments args = new(match.Groups.Count > 2 && !string.IsNullOrEmpty(match.Groups[2].Value)
                 ? match.Groups[2].Value.Split(", ").Select(s => s.Trim()).ToArray()
-                : Array.Empty<string>();
+                : Array.Empty<string>());
 
             try
             {
                 switch (command)
                 {
+                    case nameof(ActorAnime):
+                        return new ActorAnime(args[0], args[1]);
+
+                    case nameof(ActorEnter):
+                        return new ActorEnter(args[0], args[1], new(args[2], args[3]));
+
+                    case nameof(ActorExit):
+
+                        return new ActorExit(args[0], args[1]);
+
+                    case nameof(ActorMove):
+                        return new ActorMove(args[0], new(args[1], args[2]), args[3]);
+
+                    case nameof(BackGroundCrossFade):
+                        return new BackGroundCrossFade(args[0], args[1]);
+
+                    case nameof(BackGroundChange):
+                        return new BackGroundChange(args[0]);
 
                     default:
                         Debug.LogError($"不明なコマンドです: {command}");
