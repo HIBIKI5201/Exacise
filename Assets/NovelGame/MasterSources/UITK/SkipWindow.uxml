@@ -1,0 +1,15 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/NovelGame/MasterSources/UITK/ButtonUSS.uss?fileID=7433441132597879392&amp;guid=503b32579b8e03a4280d90bb86679811&amp;type=3#ButtonUSS" />
+    <ui:Button text="Skip&#10;" name="skip-button" class="button" style="position: absolute; right: 10px; top: 10px; width: 100px;" />
+    <ui:VisualElement name="skip-root" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0.6); visibility: visible;">
+        <ui:VisualElement style="position: absolute; height: 100%; align-self: center; justify-content: center; width: 100%; align-items: center;">
+            <ui:VisualElement name="skip-dialog" style="width: 500px; height: 300px; background-color: rgb(83, 83, 83); justify-content: space-around; border-top-left-radius: 40px; border-top-right-radius: 40px; border-bottom-right-radius: 40px; border-bottom-left-radius: 40px; border-top-width: 3px; border-right-width: 3px; border-bottom-width: 3px; border-left-width: 3px;">
+                <ui:Label text="スキップしますか？" style="font-size: 40px; -unity-text-align: upper-center;" />
+                <ui:VisualElement style="flex-direction: row; justify-content: space-evenly;">
+                    <ui:Button text="キャンセル" name="cancel" class="button" />
+                    <ui:Button text="スキップする" name="skip" class="button" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
