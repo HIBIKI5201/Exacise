@@ -70,24 +70,27 @@ namespace NovelGame.Master.Scripts.Presenter
         private CancellationTokenSource _cts;
         private Task _task;
         private int _currentNodeIndex = -1;
-        private List<Task> _tasks;
+        private List<ValueTask> _tasks = new();
 
         private async ValueTask<bool> NextNodeAsync(CancellationToken token = default)
         {
             ScenarioNode node = _asset[_currentNodeIndex];
 
             ValueTask textTask = _messageWindowViewModel.SetTextAsync(node.Name, node.Text);
-            _tasks.Add(textTask.AsTask());
+            _tasks.Add(textTask);
 
             foreach (IScenarioAction action in node.ScenarioActions)
             {
                 ValueTask task = action.ExecuteAsync(_repo, _ph, token);
-                _tasks.Add(task.AsTask());
+                _tasks.Add(task);
             }
 
             try
             {
-                await Task.WhenAll(_tasks);
+                foreach (ValueTask task in _tasks)
+                {
+                    await task;
+                }
             }
             finally
             {
