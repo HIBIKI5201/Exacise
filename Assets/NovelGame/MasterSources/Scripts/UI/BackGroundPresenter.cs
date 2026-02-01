@@ -24,27 +24,23 @@ namespace NovelGame.Master.Scripts.UI
         {
             _back.sprite = sprite;
 
-            float elapsed = 0f;
-            while (elapsed < duration)
+            Color origin = _front.color;
+            Color from = new(origin.r, origin.g, origin.b, 1);
+            Color to = new(origin.r, origin.g, origin.b, 0);
+
+            try
             {
-                Color color = _front.color;
-                color.a = 1f - Mathf.Clamp01(elapsed / duration);
-                _front.color = color;
-
-                try
-                {
-                    await Awaitable.NextFrameAsync(token);
-                    await ph.WaitResumeAsync(token);
-                }
-                catch (OperationCanceledException)
-                {
-                    break;
-                }
-                elapsed += Time.deltaTime;
+                await Tween.Tweening(from, c => _front.color = c, to,
+                    d: duration,
+                    ph: ph,
+                    token: token);
             }
-
-            _front.sprite = sprite;
-            _front.color = Color.white;
+            catch (OperationCanceledException) { }
+            finally
+            {
+                _front.sprite = sprite;
+                _front.color = origin;
+            }
         }
     }
 }
