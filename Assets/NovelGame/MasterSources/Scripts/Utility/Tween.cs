@@ -49,9 +49,15 @@ namespace NovelGame.Master.Scripts.Utility
 
                 action?.Invoke(result.Value);
 
-                await Awaitable.NextFrameAsync(token);
-
-                if (ph != null) { await ph.WaitResumeAsync(token); }
+                try
+                {
+                    await Awaitable.NextFrameAsync(token);
+                    if (ph != null) { await ph.WaitResumeAsync(token); }
+                }
+                catch (OperationCanceledException)
+                {
+                    break;
+                }
             }
 
             //最後に最終値にする。
