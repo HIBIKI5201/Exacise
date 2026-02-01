@@ -1,9 +1,9 @@
+using NovelGame.Master.Scripts.Utility;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
-using NovelGame.Scripts;
 
 namespace NovelGame.Master.Scripts.UI
 {
