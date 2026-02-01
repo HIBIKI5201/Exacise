@@ -8,7 +8,12 @@ namespace NovelGame.Master.Scripts.UI
     [RequireComponent(typeof(UIDocument))]
     public class NovelUIPresenter : MonoBehaviour
     {
-        public IPauseHandler PauseHandler => _skipWindowPresenter;
+        public event Action OnSkipRequested
+        {
+            add => _skipWindowPresenter.OnSkipRequested += value;
+            remove => _skipWindowPresenter.OnSkipRequested -= value;
+        }
+        public IPauseHandler PauseHandler => _pauseManager;
 
         public void BindSkipButtonClickedEvent(Action action)
         {
@@ -54,6 +59,7 @@ namespace NovelGame.Master.Scripts.UI
         [SerializeField]
         private ButtonListPresenter _buttonListPresenter;
 
+        private PauseManager _pauseManager;
         private UIDocument _document;
         private VisualElement _root;
 
@@ -61,6 +67,10 @@ namespace NovelGame.Master.Scripts.UI
         {
             _document = GetComponent<UIDocument>();
             _root = _document.rootVisualElement;
+
+            _pauseManager = new(
+                _skipWindowPresenter,
+                _scenarioLogWindowPresenter);
         }
     }
 }
