@@ -14,20 +14,24 @@ namespace NovelGame.Master.Scripts.Infra
         public ActionRepository(
             NovelUIPresenter novelUIPresenter,
             BackGroundPresenter backGroundPresenter,
-            ActorAssetDataBase actorDataBase
+            ActorAssetDataBase actorDataBase,
+            BackGroundAssetDataBase backGroundDataBase
             )
         {
             _novelUIPresenter = novelUIPresenter;
             _bgPresenter = backGroundPresenter;
             _actorDataBase = actorDataBase;
+            _backGroundDataBase = backGroundDataBase;
         }
 
         public NovelUIPresenter NovelUIPresenter => _novelUIPresenter;
         public BackGroundPresenter BackGroundPresenter => _bgPresenter;
         public ActorAssetDataBase ActorDataBase => _actorDataBase;
+        public BackGroundAssetDataBase BackGroundDataBase => _backGroundDataBase;
 
         private readonly NovelUIPresenter _novelUIPresenter;
         private readonly BackGroundPresenter _bgPresenter;
         private readonly ActorAssetDataBase _actorDataBase;
+        private readonly BackGroundAssetDataBase _backGroundDataBase;
     }
 }
