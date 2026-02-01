@@ -9,6 +9,7 @@ namespace NovelGame.Master.Scripts.UI
     /// <summary>
     ///     ノベルゲームのキャラクター表示を管理します。
     /// </summary>
+    [RequireComponent(typeof(Animator))]
     public class ActorPresenter : MonoBehaviour
     {
         public string Name => name;
