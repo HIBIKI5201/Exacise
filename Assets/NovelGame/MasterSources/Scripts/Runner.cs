@@ -81,6 +81,7 @@ namespace NovelGame.Master.Scripts.Runner
             _novelUIPresenter.Sort();
 
             _novelUIPresenter.BindSkipButtonClickedEvent(NextNode);
+            _novelUIPresenter.OnSkipRequested += NovelEnd;
 
             NextNode();
         }
