@@ -54,10 +54,11 @@ namespace NovelGame.Master.Scripts.Runner
             if (_novelUIPresenter == null)
             { _bgPresenter = FindAnyObjectByType<BackGroundPresenter>(); }
 
-            ActorRepository actorRepository = new(_actorDataBase);
             MessageWindowViewModel messageWindowVM = ScriptableObject.CreateInstance<MessageWindowViewModel>();
+            ScenarioLogWindowViewModel scenarioLogVM = ScriptableObject.CreateInstance<ScenarioLogWindowViewModel>();
+
+            ActorRepository actorRepository = new(_actorDataBase);
             messageWindowVM.Init(_novelSetting, _novelUIPresenter.PauseHandler);
-            _novelUIPresenter.BindMessageWindowViewModel(messageWindowVM);
 
             ActionRepository repo = new ActionRepository(
                 novelUIPresenter: _novelUIPresenter,
@@ -70,6 +71,10 @@ namespace NovelGame.Master.Scripts.Runner
                 repo: repo,
                 messageWindowViewModel: messageWindowVM,
                 ph: _novelUIPresenter.PauseHandler);
+
+            _novelUIPresenter.CreateSkipWindow();
+            _novelUIPresenter.CreateMessageWindow(messageWindowVM);
+            _novelUIPresenter.CreateScenarioLogWindow(scenarioLogVM);
 
             _novelUIPresenter.BindSkipButtonClickedEvent(NextNode);
 
