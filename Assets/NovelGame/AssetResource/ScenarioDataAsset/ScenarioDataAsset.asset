@@ -13,22 +13,26 @@ MonoBehaviour:
   m_Name: ScenarioDataAsset
   m_EditorClassIdentifier: NovelGame::NovelGame.Master.Scripts.Infra.ScenarioDataAsset
   _scenarioNodes:
-  - _name: a
-    _text: aaa
+  - _name: 
+    _text: 
     _isWaitForInput: 0
     _scenarioActions:
-    - rid: 6921725895077003427
+    - rid: 6921725895077003785
   - _name: a
     _text: aaa
     _isWaitForInput: 1
     _scenarioActions:
-    - rid: 6921725895077003427
+    - rid: 6921725895077003799
   references:
     version: 2
     RefIds:
-    - rid: 6921725895077003427
+    - rid: 6921725895077003785
+      type: {class: ChangeBackGround, ns: NovelGame.Master, asm: NovelGame}
+      data:
+        _imageName: City
+    - rid: 6921725895077003799
       type: {class: ActorEnter, ns: NovelGame.Master, asm: NovelGame}
       data:
         _actorName: Kohaku
-        _duration: 0
+        _duration: 0.5
         _position: {x: 0, y: 0}

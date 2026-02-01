@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NovelGame.Master.Scripts.Infra.BackGroundAssetDataBase
   _backgroundAssets:
   - {fileID: 11400000, guid: 396fdf68ef8f01c40a3a68cd22cdbb8a, type: 2}
+  - {fileID: 11400000, guid: 79c38484c19288a48a0d6e82f7a186c3, type: 2}
