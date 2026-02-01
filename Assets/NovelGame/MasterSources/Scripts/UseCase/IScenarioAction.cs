@@ -10,7 +10,7 @@ namespace NovelGame.Master.Scripts.UseCase
     /// </summary>
     public interface IScenarioAction
     {
-        public ValueTask ExcuteAsync(ActionRepository repository,
+        public ValueTask ExecuteAsync(ActionRepository repository,
             IPauseHandler pauseHandler,
             CancellationToken token = default);
     }
