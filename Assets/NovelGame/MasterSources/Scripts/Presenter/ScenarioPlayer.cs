@@ -62,7 +62,7 @@ namespace NovelGame.Master.Scripts.Presenter
 
         private CancellationTokenSource _cts;
         private Task _task;
-        private int _currentNodeIndex = -1;
+        private int _currentNodeIndex = 0;
         private List<ValueTask> _tasks = new();
 
         private async ValueTask<bool> NextNodeAsync(CancellationToken token = default)
@@ -71,8 +71,6 @@ namespace NovelGame.Master.Scripts.Presenter
 
             do
             {
-                _currentNodeIndex++;
-
                 if (_asset.Length <= _currentNodeIndex)
                 {
                     return false;
@@ -100,6 +98,8 @@ namespace NovelGame.Master.Scripts.Presenter
                 {
                     _tasks.Clear();
                 }
+
+                _currentNodeIndex++;
             }
             while (node != null && !node.IsWaitForInput);
 
