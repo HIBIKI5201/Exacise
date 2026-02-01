@@ -15,6 +15,12 @@ namespace NovelGame.Master.Scripts.UseCase
             _duration = 0.5f;
         }
 
+        public ActorExit(string actorName, float duration)
+        {
+            _actorName = actorName;
+            _duration = duration;
+        }
+
         public async ValueTask ExecuteAsync(ActionRepository repository, IPauseHandler pauseHandler, CancellationToken token = default)
         {
             ActorPresenter actor = repository.ActorRepository.GetActorPresenter(_actorName);
