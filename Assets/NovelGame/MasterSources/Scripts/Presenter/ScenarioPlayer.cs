@@ -2,7 +2,6 @@ using NovelGame.Master.Scripts.Infra;
 using NovelGame.Master.Scripts.UI;
 using NovelGame.Master.Scripts.UseCase;
 using NovelGame.Master.Scripts.Utility;
-using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;

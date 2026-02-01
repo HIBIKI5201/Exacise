@@ -1,4 +1,5 @@
 using NovelGame.Master.Scripts.Utility;
+using System;
 using UnityEngine;
 
 namespace NovelGame.Master.Scripts.Infra
@@ -11,6 +12,7 @@ namespace NovelGame.Master.Scripts.Infra
     public class ScenarioDataAsset : ScriptableObject
     {
         public ScenarioNode this[int index] => _scenarioNodes[index];
+
         public int Length => _scenarioNodes.Length;
         public void SetScenarioNodes(ScenarioNode[] scenarioNodes)
         {
