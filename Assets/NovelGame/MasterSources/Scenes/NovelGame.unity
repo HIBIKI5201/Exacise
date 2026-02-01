@@ -326,11 +326,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NovelGame.Master.Scripts.UI.NovelUIPresenter
   _messageWindowPresenter:
     _visualTreeAsset: {fileID: 9197481963319205126, guid: a897ee9f28da89b48b99456469d9358f, type: 3}
+    ClickButtonName: click-button
   _skipWindowPresenter:
     _visualTreeAsset: {fileID: 9197481963319205126, guid: 9efd4a8f414459746bc190aa2709e7ae, type: 3}
     _skipRootName: skip-root
     _skipButtonName: skip-button
-  _vm: {fileID: 0}
 --- !u!1 &1203576148
 GameObject:
   m_ObjectHideFlags: 0
@@ -589,8 +589,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 907ced38028bddc4a8aeae5c94b4854f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NovelGame.Master.Scripts.Runner.Runner
+  _novelSetting: {fileID: 11400000, guid: 3c7190b2a45e8c04fb05d709878808a9, type: 2}
   _scenarioAsset: {fileID: 11400000, guid: 47c7c59e28caf7645b74bdccdd76dc62, type: 2}
   _actorDataBase: {fileID: 11400000, guid: 9664525f6f751d9469b630384d272c67, type: 2}
+  _bgDataBase: {fileID: 11400000, guid: d382b23be54d1d548afa1e42c5a36766, type: 2}
   _novelUIPresenter: {fileID: 1007829300}
   _bgPresenter: {fileID: 2057275220}
 --- !u!4 &1684561402
