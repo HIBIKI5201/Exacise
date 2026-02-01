@@ -61,6 +61,8 @@ namespace NovelGame.Master.Scripts.UI
                 ScenarioNodeViewModel node = _vm[i];
                 element.dataSource = node;
             };
+
+            list.Rebuild();
         }
     }
 }
