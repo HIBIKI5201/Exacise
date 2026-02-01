@@ -11,6 +11,8 @@ namespace NovelGame.Master.Scripts.Runner
         private ScenarioDataAsset _scenarioAsset;
         [SerializeField]
         private ActorAssetDataBase _actorDataBase;
+        [SerializeField]
+        private BackGroundAssetDataBase _bgDataBase;
 
         [SerializeField]
         private NovelUIPresenter _novelUIPresenter;
@@ -41,9 +43,15 @@ namespace NovelGame.Master.Scripts.Runner
             messageWindowVM.Init(_novelUIPresenter.PauseHandler);
             _novelUIPresenter.BindMessageWindowViewModel(messageWindowVM);
 
+            ActionRepository repo = new ActionRepository(
+                novelUIPresenter: _novelUIPresenter,
+                backGroundPresenter: _bgPresenter,
+                actorDataBase: _actorDataBase,
+                backGroundDataBase: _bgDataBase);
+
             _player = new ScenarioPlayer(
                 asset: _scenarioAsset,
-                repo: new ActionRepository(_novelUIPresenter, _bgPresenter, _actorDataBase),
+                repo: repo,
                 messageWindowViewModel: messageWindowVM,
                 ph: _novelUIPresenter.PauseHandler);
 
