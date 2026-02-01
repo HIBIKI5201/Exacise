@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace NovelGame.Scripts
 {
+    [RequireComponent(typeof(Animator))]
     public class CharacterAnimator : MonoBehaviour
     {
         public string Name => name;
