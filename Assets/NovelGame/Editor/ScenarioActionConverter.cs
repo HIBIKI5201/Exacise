@@ -39,11 +39,10 @@ namespace NovelGame.Master.Scripts.Editor
                         return new ActorEnter(args[0], args[1], new(args[2], args[3]));
 
                     case nameof(ActorExit):
-
                         return new ActorExit(args[0], args[1]);
 
                     case nameof(ActorMove):
-                        return new ActorMove(args[0], new(args[1], args[2]), args[3]);
+                        return new ActorMove(args[0], args[1], new(args[2], args[3]));
 
                     case nameof(BackGroundCrossFade):
                         return new BackGroundCrossFade(args[0], args[1]);
@@ -61,6 +60,6 @@ namespace NovelGame.Master.Scripts.Editor
                 Debug.LogError($"コマンド '{command}' の引数処理中にエラーが発生しました。Args: [{string.Join(", ", args)}]\n{e}");
                 return null;
             }
-        }
+}
     }
 }

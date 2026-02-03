@@ -12,15 +12,15 @@ namespace NovelGame.Master.Scripts.UseCase
         public ActorMove()
         {
             _actorName = string.Empty;
-            _toPosition = Vector2.zero;
             _duration = 0.5f;
+            _toPosition = Vector2.zero;
         }
 
-        public ActorMove(string actorName, Vector2 toPosition, float duration)
+        public ActorMove(string actorName, float duration, Vector2 toPosition)
         {
             _actorName = actorName;
-            _toPosition = toPosition;
             _duration = duration;
+            _toPosition = toPosition;
         }
 
         public ValueTask ExecuteAsync(ActionRepository repository, IPauseHandler pauseHandler, CancellationToken token = default)
@@ -37,8 +37,8 @@ namespace NovelGame.Master.Scripts.UseCase
         [SerializeField]
         private string _actorName;
         [SerializeField]
-        private Vector2 _toPosition;
-        [SerializeField]
         private float _duration;
+        [SerializeField]
+        private Vector2 _toPosition;
     }
 }
