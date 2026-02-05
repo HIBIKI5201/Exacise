@@ -20,6 +20,11 @@ namespace NovelGame.Master.Scripts.UI
             _messageWindowPresenter.OnButtonClicked += action;
         }
 
+        public void SetNovelButtonActive(bool active)
+        {
+            _messageWindowPresenter.IsButtonActived = active;
+        }
+
         public void CreateMessageWindow(MessageWindowViewModel vm)
         {
             VisualElement visualElement = _messageWindowPresenter.CreateView(vm);
@@ -58,6 +63,8 @@ namespace NovelGame.Master.Scripts.UI
         private ScenarioLogWindowPresenter _scenarioLogWindowPresenter;
         [SerializeField]
         private ButtonListPresenter _buttonListPresenter;
+        [SerializeField]
+        private ChoiceButtonPresenter _choiceButtonPresenter;
 
         private PauseManager _pauseManager;
         private UIDocument _document;
@@ -71,6 +78,7 @@ namespace NovelGame.Master.Scripts.UI
             _pauseManager = new(
                 _skipWindowPresenter,
                 _scenarioLogWindowPresenter);
+            _root.Add(_choiceButtonPresenter.Create());
         }
     }
 }
