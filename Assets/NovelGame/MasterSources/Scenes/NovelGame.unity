@@ -330,13 +330,19 @@ MonoBehaviour:
   _skipWindowPresenter:
     _visualTreeAsset: {fileID: 9197481963319205126, guid: 9efd4a8f414459746bc190aa2709e7ae, type: 3}
     _skipRootName: skip-root
-    _skipButtonName: skip-button
     _skipExecuteButtonName: skip
     _skipCancelButtonName: cancel
   _scenarioLogWindowPresenter:
     _windowTreeAsset: {fileID: 9197481963319205126, guid: 952313282720b4347b0ec5d4b39cf4c7, type: 3}
     _nodeTreeAsset: {fileID: 9197481963319205126, guid: 49fe0d691e292a64db9b5e4b2c94b343, type: 3}
     _listViewName: list-view
+    _closeButtonName: close
+  _buttonListPresenter:
+    _buttonListRootName: button-list
+    _logButtonName: log
+    _skipButtonName: skip
+  _choiceButtonPresenter:
+    _choiceButtonUXML: {fileID: 9197481963319205126, guid: 3c29e636a58dc07489779d6401440957, type: 3}
 --- !u!1 &1203576148
 GameObject:
   m_ObjectHideFlags: 0
