@@ -7,16 +7,21 @@ namespace NovelGame.Master.Scripts.UI
     [Serializable]
     public class ChoiceButtonPresenter
     {
+        public VisualElement Root => _root;
+
         public VisualElement Create()
         {
             VisualElement root = new VisualElement();
             InitRoot(root);
 
+            _root = root;
             return root;
         }
 
         [SerializeField]
         private VisualTreeAsset _choiceButtonUXML;
+
+        private VisualElement _root;
 
         private void InitRoot(VisualElement root)
         {

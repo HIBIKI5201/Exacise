@@ -45,6 +45,7 @@ namespace NovelGame.Master.Scripts.UI
             _messageWindowPresenter.Root.BringToFront();
             _scenarioLogWindowPresenter.Root.BringToFront();
             _skipWindowPresenter.Root.BringToFront();
+            _choiceButtonPresenter.Root.BringToFront();
         }
 
         public void CreateScenarioLogWindow(ScenarioLogWindowViewModel vm)
