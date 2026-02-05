@@ -10,6 +10,11 @@ namespace NovelGame.Master.Scripts.UI
         public event Action OnButtonClicked;
 
         public VisualElement Root => _root;
+        public bool IsButtonActived
+        {
+            get => _isButtonActive;
+            set => _isButtonActive = value;
+        }
 
         public VisualElement CreateView(MessageWindowViewModel vm)
         {
@@ -31,6 +36,7 @@ namespace NovelGame.Master.Scripts.UI
 
         private VisualElement _root;
         private Button _clickButton;
+        private bool _isButtonActive = true;
 
         private void RootStyleInit(VisualElement root)
         {
@@ -49,6 +55,8 @@ namespace NovelGame.Master.Scripts.UI
 
         private void OnClickButton()
         {
+            if(!_isButtonActive) { return; }
+
             OnButtonClicked?.Invoke();
         }
     }
