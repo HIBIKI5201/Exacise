@@ -1,6 +1,9 @@
+using System.Collections;
+using System.Collections.Generic;
+
 namespace NovelGame.Master.Scripts.Editor
 {
-    public readonly struct ScenarioArguments
+    public readonly struct ScenarioArguments : IEnumerable<string>
     {
         public ScenarioArguments(string[] args)
         {
@@ -9,6 +12,11 @@ namespace NovelGame.Master.Scripts.Editor
 
         public Argument this[int index] => new(_args[index]);
         public int Length => _args.Length;
+
+        public IEnumerator<string> GetEnumerator() => ((IEnumerable<string>)_args).GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+        public override string ToString() => string.Join(", ", this);
 
         private readonly string[] _args;
 
