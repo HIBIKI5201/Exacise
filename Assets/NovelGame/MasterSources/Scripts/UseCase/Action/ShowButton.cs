@@ -1,5 +1,6 @@
 using NovelGame.Master.Scripts.Infra;
 using NovelGame.Master.Scripts.Utility;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -20,6 +21,13 @@ namespace NovelGame.Master.Scripts.UseCase
 
         public ShowButton(string buttonText, int jumpLine, Vector2Int pos)
         {
+            const int MAX_LENGTH = 10;
+
+            if (MAX_LENGTH < buttonText.Length)
+            {
+                throw new Exception($"ボタンテキストの最大文字数{MAX_LENGTH}を超えています");
+            }
+
             _buttonText = buttonText;
             _jumpLine = jumpLine;
             _pos = pos;
