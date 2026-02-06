@@ -1,6 +1,7 @@
 using NovelGame.Master.Scripts.UseCase;
 using System;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
@@ -8,7 +9,7 @@ namespace NovelGame.Master.Scripts.Editor
 {
     public static class ScenarioActionConverter
     {
-        public static IScenarioAction ActionConvert(string actionInfo)
+        public static IScenarioAction ActionConvert(string actionInfo, ref StringBuilder log)
         {
             // コマンド名と角括弧で囲まれた引数リストを抽出する正規表現
             // 例: Command[arg1, arg2], Command[arg1], Command[], Command
@@ -17,8 +18,7 @@ namespace NovelGame.Master.Scripts.Editor
 
             if (!match.Success)
             {
-                Debug.LogError($"書式が不正です: {actionInfo}");
-                return null;
+                throw new Exception($"書式が不正です: {actionInfo}".ErrorString());
             }
 
             string command = match.Groups[1].Value;
@@ -41,14 +41,21 @@ namespace NovelGame.Master.Scripts.Editor
                     case nameof(DisableClick): return new DisableClick();
                     case nameof(ShowButton): return new ShowButton(args[0], args[1] - 1, new(args[2], args[3])); // jumpLineを1オリジンから0オリジンに変換。
                     default:
-                        Debug.LogError($"不明なコマンドです: {command}");
-                        return null;
+                        throw new FormatException();
                 }
+            }
+            catch (IndexOutOfRangeException e)
+            {
+                throw new Exception($"コマンド '{command}' に対する引数が足りていません".ErrorString());
+            }
+            catch (FormatException e)
+            {
+                throw new Exception($"不明なコマンドです: {command}".WarningString());
+
             }
             catch (Exception e)
             {
-                Debug.LogError($"コマンド '{command}' の引数処理中にエラーが発生しました。Args: [{string.Join(", ", args)}]\n{e}");
-                return null;
+                throw new Exception($"コマンド '{command}' の引数処理中にエラーが発生しました。Args: [{args.ToString()}]\n{e}".ErrorString());
             }
         }
     }
