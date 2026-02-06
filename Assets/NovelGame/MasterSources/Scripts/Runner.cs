@@ -82,10 +82,12 @@ namespace NovelGame.Master.Scripts.Runner
 
             _novelUIPresenter.BindSkipButtonClickedEvent(NextNode);
             _novelUIPresenter.OnSkipRequested += NovelEnd;
+            _novelUIPresenter.OnClickedChoiceButton += MoveIndex;
 
             NextNode();
         }
 
+        [ContextMenu("Next")]
         private async void NextNode()
         {
             bool result = await _player.MoveNextAsync();
@@ -93,6 +95,12 @@ namespace NovelGame.Master.Scripts.Runner
             {
                 NovelEnd();
             }
+        }
+
+        private void MoveIndex(int index)
+        {
+            _player.MoveIndex(index);
+            NextNode();
         }
 
         private void NovelEnd()
