@@ -40,6 +40,11 @@ namespace NovelGame.Master.Scripts.Presenter
             return task;
         }
 
+        public void MoveIndex(int index)
+        {
+            _currentNodeIndex = index - 1; //入力の一つ前まで完了したことにする。
+        }
+
         public bool TryCancel()
         {
             if (_cts == null)
