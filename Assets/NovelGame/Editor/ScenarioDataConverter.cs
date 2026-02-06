@@ -3,15 +3,15 @@ using NovelGame.Master.Scripts.UseCase;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
 namespace NovelGame.Master.Scripts.Editor
 {
-    public class ScenarioDataConverter
+    public static class ScenarioDataConverter
     {
-        public static ScenarioDataAsset Execute(string text)
+        public static ScenarioDataAsset Execute(string text, ref StringBuilder log)
         {
             var textDatas = new List<ScenarioNode>();
             StringReader reader = new StringReader(text);
@@ -19,7 +19,6 @@ namespace NovelGame.Master.Scripts.Editor
             int lineNumber = 0;
             while (reader.Peek() != -1)
             {
-                lineNumber++;
                 string line = reader.ReadLine();
                 if (string.IsNullOrWhiteSpace(line)) { continue; }
 
@@ -27,8 +26,14 @@ namespace NovelGame.Master.Scripts.Editor
 
                 if (elements.Length < 3)
                 {
-                    Debug.LogWarning($"不正なフォーマットの行をスキップしました: Line {lineNumber} - {line}");
-                    continue;
+                    log.AppendLine($"要素が足りません\n".ErrorString());
+                    return null;
+                }
+
+                if (!bool.TryParse(elements[2], out bool isWaitForInput))
+                {
+                    isWaitForInput = true; // 失敗時にデフォルト値にする。
+                    log.AppendLine($"line{lineNumber.OneBased()}: bool値のパースに失敗したためデフォルト値(true)を使用します\n".WarningString());
                 }
 
                 Span<string> actions = new(elements, 3, elements.Length - 3);
@@ -37,18 +42,21 @@ namespace NovelGame.Master.Scripts.Editor
                 {
                     if (string.IsNullOrEmpty(actions[i])) { continue; }
 
-                    IScenarioAction action = ScenarioActionConverter.ActionConvert(actions[i]);
-                    if (action != null) { actiondata.Add(action); }
-                }
-
-                if (!bool.TryParse(elements[2], out bool isWaitForInput))
-                {
-                    isWaitForInput = true; // 失敗時にデフォルト値にする。
-                    Debug.LogWarning($"bool値のパースに失敗したためデフォルト値(true)を使用します: Line {lineNumber}");
+                    try
+                    {
+                        IScenarioAction action = ScenarioActionConverter.ActionConvert(actions[i], ref log);
+                        if (action != null) { actiondata.Add(action); }
+                    }
+                    catch (Exception e)
+                    {
+                        log.AppendLine($"line{lineNumber.OneBased()}, index {i}: action is could not convert\n{e.Message}\n");
+                    }
                 }
 
                 ScenarioNode textData = new(elements[1], elements[0], isWaitForInput, actiondata.ToArray());
                 textDatas.Add(textData);
+
+                lineNumber++;
             }
 
             ScenarioDataAsset data = ScriptableObject.CreateInstance<ScenarioDataAsset>();
@@ -69,5 +77,7 @@ namespace NovelGame.Master.Scripts.Editor
 
             return values;
         }
+
+        private static int OneBased(this int n) => n + 1;
     }
 }
