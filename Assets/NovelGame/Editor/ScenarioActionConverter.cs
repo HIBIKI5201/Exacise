@@ -32,24 +32,14 @@ namespace NovelGame.Master.Scripts.Editor
             {
                 switch (command)
                 {
-                    case nameof(ActorAnime):
-                        return new ActorAnime(args[0], args[1]);
-
-                    case nameof(ActorEnter):
-                        return new ActorEnter(args[0], args[1], new(args[2], args[3]));
-
-                    case nameof(ActorExit):
-                        return new ActorExit(args[0], args[1]);
-
-                    case nameof(ActorMove):
-                        return new ActorMove(args[0], args[1], new(args[2], args[3]));
-
-                    case nameof(BackGroundCrossFade):
-                        return new BackGroundCrossFade(args[0], args[1]);
-
-                    case nameof(BackGroundChange):
-                        return new BackGroundChange(args[0]);
-
+                    case nameof(ActorAnime): return new ActorAnime(args[0], args[1]);
+                    case nameof(ActorEnter): return new ActorEnter(args[0], args[1], new(args[2], args[3]));
+                    case nameof(ActorExit): return new ActorExit(args[0], args[1]);
+                    case nameof(ActorMove): return new ActorMove(args[0], args[1], new(args[2], args[3]));
+                    case nameof(BackGroundCrossFade): return new BackGroundCrossFade(args[0], args[1]);
+                    case nameof(BackGroundChange): return new BackGroundChange(args[0]);
+                    case nameof(DisableClick): return new DisableClick();
+                    case nameof(ShowButton): return new ShowButton(args[0], args[1] - 1, new(args[2], args[3])); // jumpLineを1オリジンから0オリジンに変換。
                     default:
                         Debug.LogError($"不明なコマンドです: {command}");
                         return null;
@@ -60,6 +50,6 @@ namespace NovelGame.Master.Scripts.Editor
                 Debug.LogError($"コマンド '{command}' の引数処理中にエラーが発生しました。Args: [{string.Join(", ", args)}]\n{e}");
                 return null;
             }
-}
+        }
     }
 }
