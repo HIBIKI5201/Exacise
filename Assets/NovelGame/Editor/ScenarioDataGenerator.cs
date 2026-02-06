@@ -21,6 +21,8 @@ namespace NovelGame.Master.Scripts.Editor
         private string _sheetName;
         private string _exportPath = DEFALUT_EXPORT_PATH;
         private string _lastCSV;
+        private StringBuilder _logBuilder = new();
+        private string _log;
 
         private void OnGUI()
         {
@@ -32,19 +34,28 @@ namespace NovelGame.Master.Scripts.Editor
             }
 
             EditorGUILayout.Space(20);
+            EditorGUILayout.LabelField("log");
+            EditorGUILayout.LabelField(_log, new GUIStyle(EditorStyles.label) { wordWrap = true, richText = true });
+
+            EditorGUILayout.Space(20);
+
             EditorGUILayout.LabelField("preview");
             EditorGUILayout.LabelField(_lastCSV, new GUIStyle(EditorStyles.label) { wordWrap = true });
         }
 
         private async ValueTask Generate()
         {
+            _logBuilder.Clear();
+
             string csv = await GetCSV();
             _lastCSV = csv;
 
-            ScenarioDataAsset data = ScenarioDataConverter.Execute(csv);
+            ScenarioDataAsset data = ScenarioDataConverter.Execute(csv, ref _logBuilder);
             Save(data);
 
             Repaint();
+
+            _log = _logBuilder.ToString();
         }
 
         private async ValueTask<string> GetCSV()
