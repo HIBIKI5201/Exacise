@@ -10,78 +10,72 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6b450a0a5b712c448accb7dd7da80e8e, type: 3}
-  m_Name: ScenarioDataAsset
+  m_Name: Novel_1
   m_EditorClassIdentifier: NovelGame::NovelGame.Master.Scripts.Infra.ScenarioDataAsset
   _scenarioNodes:
   - _name: 
     _text: 
     _isWaitForInput: 0
     _scenarioActions:
-    - rid: 6921725898382901387
+    - rid: 6921726002189304336
   - _name: "\u30E6\u30CB\u30C6\u30A3\u3061\u3083\u3093"
     _text: "\u30B3\u30CF\u30AF\u767B\u5834"
     _isWaitForInput: 1
     _scenarioActions:
-    - rid: 6921725898382901395
+    - rid: 6921726002189304337
   - _name: "\u30E6\u30CB\u30C6\u30A3\u3061\u3083\u3093"
     _text: "\u30B8\u30E3\u30F3\u30D7\uFF01\uFF01"
     _isWaitForInput: 1
     _scenarioActions:
-    - rid: 6921725898382901397
+    - rid: 6921726002189304338
   - _name: "\u30E6\u30CB\u30C6\u30A3\u3061\u3083\u3093"
-    _text: "\u3046\u3054\u304F"
+    _text: "\u52D5\u304F"
     _isWaitForInput: 1
     _scenarioActions:
-    - rid: 6921725898382901386
-  - _name: 
-    _text: 
-    _isWaitForInput: 1
-    _scenarioActions:
-    - rid: 6921725986050408773
-    - rid: 6921726001161961872
+    - rid: 6921726002189304339
   - _name: "\u30E6\u30CB\u30C6\u30A3\u3061\u3083\u3093"
-    _text: "\u3055\u3088\u3046\u306A\u3089\uFF5E"
+    _text: "\u3069\u3063\u3061\u306B\u3059\u308B\uFF1F"
     _isWaitForInput: 1
     _scenarioActions:
-    - rid: 6921725898382901388
+    - rid: 6921726002189304340
+    - rid: 6921726002189304341
+    - rid: 6921726002189304342
   references:
     version: 2
     RefIds:
-    - rid: 6921725898382901386
-      type: {class: ActorMove, ns: NovelGame.Master.Scripts.UseCase, asm: NovelGame}
-      data:
-        _actorName: Kohaku
-        _duration: 0.5
-        _toPosition: {x: 5, y: -1}
-    - rid: 6921725898382901387
+    - rid: 6921726002189304336
       type: {class: BackGroundChange, ns: NovelGame.Master.Scripts.UseCase, asm: NovelGame}
       data:
         _imageName: City
-    - rid: 6921725898382901388
-      type: {class: ActorExit, ns: NovelGame.Master.Scripts.UseCase, asm: NovelGame}
-      data:
-        _actorName: Kohaku
-        _duration: 0.5
-    - rid: 6921725898382901395
+    - rid: 6921726002189304337
       type: {class: ActorEnter, ns: NovelGame.Master.Scripts.UseCase, asm: NovelGame}
       data:
         _actorName: Kohaku
         _duration: 0.5
         _position: {x: -5, y: -1}
-    - rid: 6921725898382901397
+    - rid: 6921726002189304338
       type: {class: ActorAnime, ns: NovelGame.Master.Scripts.UseCase, asm: NovelGame}
       data:
         _actorName: Kohaku
         _clipName: Jump
-    - rid: 6921725986050408773
+    - rid: 6921726002189304339
+      type: {class: ActorMove, ns: NovelGame.Master.Scripts.UseCase, asm: NovelGame}
+      data:
+        _actorName: Kohaku
+        _duration: 0.5
+        _toPosition: {x: 5, y: -1}
+    - rid: 6921726002189304340
+      type: {class: DisableClick, ns: NovelGame.Master.Scripts.UseCase, asm: NovelGame}
+      data: 
+    - rid: 6921726002189304341
       type: {class: ShowButton, ns: NovelGame.Master.Scripts.UseCase, asm: NovelGame}
       data:
-        _buttonText: "\u9078\u629E\u80A2\uFF11"
+        _buttonText: "\u7D42\u308F\u308B"
         _jumpLine: 5
-        _pos: {x: -100, y: 0}
-    - rid: 6921726001161961872
+        _pos: {x: -200, y: 0}
+    - rid: 6921726002189304342
       type: {class: ShowButton, ns: NovelGame.Master.Scripts.UseCase, asm: NovelGame}
       data:
-        _buttonText: "\u9078\u629E\u80A2\uFF12"
-        _jumpLine: 0
-        _pos: {x: 100, y: 0}
+        _buttonText: "\u623B\u308B"
+        _jumpLine: 1
+        _pos: {x: 200, y: 0}
