@@ -13,6 +13,13 @@ namespace NovelGame.Master.Scripts.UI
             add => _skipWindowPresenter.OnSkipRequested += value;
             remove => _skipWindowPresenter.OnSkipRequested -= value;
         }
+
+        public event Action<int> OnClickedChoiceButton
+        {
+            add => _choiceButtonPresenter.OnClicked += value;
+            remove =>_choiceButtonPresenter.OnClicked -= value;
+        }
+
         public IPauseHandler PauseHandler => _pauseManager;
 
         public void BindSkipButtonClickedEvent(Action action)
@@ -43,9 +50,9 @@ namespace NovelGame.Master.Scripts.UI
         public void Sort()
         {
             _messageWindowPresenter.Root.BringToFront();
+            _choiceButtonPresenter.Root.BringToFront();
             _scenarioLogWindowPresenter.Root.BringToFront();
             _skipWindowPresenter.Root.BringToFront();
-            _choiceButtonPresenter.Root.BringToFront();
         }
 
         public void CreateScenarioLogWindow(ScenarioLogWindowViewModel vm)
@@ -53,6 +60,11 @@ namespace NovelGame.Master.Scripts.UI
             _root.Add(_scenarioLogWindowPresenter.CreateView(vm));
             _buttonListPresenter.OnLogButtonClicked +=
                 () => _scenarioLogWindowPresenter.ChangeVisibility(Visibility.Visible);
+        }
+
+        public void ShowButton(string text, int lineIndex, Vector2Int pos)
+        {
+            _choiceButtonPresenter.PopButton(text, lineIndex, pos);
         }
 
 
@@ -80,6 +92,8 @@ namespace NovelGame.Master.Scripts.UI
                 _skipWindowPresenter,
                 _scenarioLogWindowPresenter);
             _root.Add(_choiceButtonPresenter.Create());
+
+            _choiceButtonPresenter.OnClicked += n => _messageWindowPresenter.IsButtonActived = true;
         }
     }
 }
