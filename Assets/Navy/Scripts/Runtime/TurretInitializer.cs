@@ -1,4 +1,4 @@
-﻿namespace NavyGame.Runtime
+namespace NavyGame.Runtime
 {
     /// <summary>
     ///     タレットの初期化を行うクラス。
@@ -24,7 +24,7 @@
                 LifeCycle = lifeCycle;
             }
 
-            public TurretLifeCycle LifeCycle { get; }
+            public readonly TurretLifeCycle LifeCycle;
         }
     }
 }

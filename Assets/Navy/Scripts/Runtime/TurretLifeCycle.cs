@@ -1,8 +1,8 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 namespace NavyGame.Runtime
 {
-    public class TurretLifeCycle
+    public class TurretLifeCycle : ITickable
     {
         public TurretLifeCycle(TurretRotater rotater, TurretShooter shooter, TargetSystem targetSystem)
         {
@@ -11,14 +11,14 @@ namespace NavyGame.Runtime
             _targetSystem = targetSystem;
         }
 
-        public void Tick(float delta)
+        public void Tick(float deltaTime)
         {
-            _targetSystem.Tick(delta);
+            _targetSystem.Tick(deltaTime);
 
             if (_targetSystem.TryGetClosestTarget(out Transform target))
             {
                 _rotater.Look(target.position);
-                _shooter.Tick(delta);
+                _shooter.Tick(deltaTime);
             }
         }
 

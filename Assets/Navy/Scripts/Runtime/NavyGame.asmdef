@@ -1,7 +1,10 @@
 {
     "name": "NavyGame",
     "rootNamespace": "NavyGame.Runtime",
-    "references": [],
+    "references": [
+        "GUID:68a532f43eeefd5408e4e8871b769ee4",
+        "GUID:75469ad4d38634e559750d17036d5f7c"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
