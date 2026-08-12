@@ -1,7 +1,7 @@
-using UnityEngine;
-
 namespace NavyGame.Runtime
 {
+    using UnityEngine;
+
     public class ShipMover
     {
         public ShipMover(ShipStatus status, ShipViewContainer container)
@@ -13,23 +13,27 @@ namespace NavyGame.Runtime
         public void Tick(float deltaTime, Vector2 moveInput)
         {
             Transform transform = _container.transform;
-            Vector3 position = transform.position;
 
-            _velocity += Vector3.forward * moveInput.y * _status.Acceleration * deltaTime;
+            _turnVelocity += moveInput.x * _status.TurnAcceleration * deltaTime;
+            _turnVelocity = Mathf.Lerp(_turnVelocity, 0f, _status.TurnDrag * deltaTime);
+            _turnVelocity = Mathf.Clamp(_turnVelocity, -_status.MaxTurnSpeed, _status.MaxTurnSpeed);
+            Quaternion rotation = transform.rotation * Quaternion.Euler(0, _turnVelocity * deltaTime, 0);
+
+            Vector3 thrust = transform.forward * moveInput.y * _status.Acceleration * deltaTime;
+            _velocity += thrust;
+            _velocity = Vector3.Lerp(_velocity, Vector3.zero, _status.MoveDrag * deltaTime);
             _velocity = Vector3.ClampMagnitude(_velocity, _status.MaxSpeed);
-            position += _velocity * deltaTime;
 
-            Quaternion rotation = transform.rotation;
-            rotation *= Quaternion.Euler(0, moveInput.x * _status.TurnSpeed * deltaTime, 0);
+            transform.position += _velocity * deltaTime;
+            transform.rotation = rotation;
 
-            _container.transform.position = position;
-            _container.transform.rotation = rotation;
+            Debug.Log(moveInput);
         }
 
         private readonly ShipStatus _status;
         private readonly ShipViewContainer _container;
 
         private Vector3 _velocity = Vector3.zero;
-
+        private float _turnVelocity = 0;
     }
 }

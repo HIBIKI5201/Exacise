@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+using Unity.Entities;
+using UnityEngine;
 
 namespace NavyGame.Runtime
 {
@@ -12,6 +13,8 @@ namespace NavyGame.Runtime
             _container = container;
             _status = status;
             _timeSinceLastShot = 0f;
+
+            _entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
         }
 
         public void Tick(float delta)
@@ -26,18 +29,24 @@ namespace NavyGame.Runtime
 
         private readonly TurretViewContainer _container;
         private readonly TurretStatus _status;
+        private readonly EntityManager _entityManager;
         private float _timeSinceLastShot;
 
         private void Fire()
         {
             Transform muzzle = _container.Muzzle;
-            BulletMover bullet = _container.Bullet;
 
             Vector2 spreadPoint = Random.insideUnitCircle * _status.MaxSpreadAngle;
             Quaternion spreadRotation = muzzle.rotation * Quaternion.Euler(spreadPoint.y, spreadPoint.x, 0);
 
-            BulletMover b = Object.Instantiate(bullet, muzzle.position, spreadRotation);
-            b.Init();
+            Entity entity = _entityManager.CreateEntity();
+            BulletSpawnRequestComponent bulletSpawnRequest = new BulletSpawnRequestComponent
+            {
+                Position = muzzle.position,
+                Rotation = spreadRotation,
+                Index = _container.BulletIndex
+            };
+            _entityManager.AddComponentData(entity, bulletSpawnRequest);
 
             _container.InvokeOnShot();
         }

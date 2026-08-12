@@ -1,3 +1,4 @@
+using SymphonyFrameWork.Attribute;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -11,6 +12,7 @@ namespace NavyGame.Runtime
         [SerializeField, Tooltip("移動のアクション名")]
         private string _moveActionName = "Move";
 
+        [SerializeField, ReadOnly]
         private Vector2 _moveInput;
 
         private void Start()
@@ -22,6 +24,7 @@ namespace NavyGame.Runtime
 
             InputAction moveAction = playerInput.actions[_moveActionName];
             moveAction.performed += MoveHandler;
+            moveAction.canceled += MoveHandler;
         }
 
         private void MoveHandler(InputAction.CallbackContext context)

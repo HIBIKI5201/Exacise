@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -9,7 +9,7 @@ namespace NavyGame.Runtime
     /// </summary>
     public class TurretViewContainer : MonoBehaviour
     {
-        public BulletMover Bullet => _bullet;
+        public byte BulletIndex => _bulletIndex;
         public TurretStatus Status => _status;
 
         public Transform H => _h;
@@ -24,8 +24,8 @@ namespace NavyGame.Runtime
         private UnityEvent _onShot;
 
         [Header("Status")]
-        [SerializeField, Tooltip("弾丸のオブジェクト")]
-        private BulletMover _bullet;
+        [SerializeField, Tooltip("弾丸の番号")]
+        private byte _bulletIndex;
         [SerializeField, Tooltip("ステータス")]
         private TurretStatus _status;
 
